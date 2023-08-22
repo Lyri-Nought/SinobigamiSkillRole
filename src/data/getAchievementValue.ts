@@ -48,6 +48,29 @@ function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCo
         for(let i: number = left; i < right; i++){
             if(!gaps[i]) colDistance++;
         }
+        if(makaiKogaku){
+            // 魔界工学習得時、反対方向も確認する
+            let tempColDistance = 1;
+            for (let j = 0; j < left; j++){
+                // 習得特技から左端までの距離を計算する
+                tempColDistance++;
+                if (!gaps[j]) {
+                    tempColDistance++;
+                }
+            }
+            for (let j = right; j < 5; j++) {
+                // 右端から判定特技までの距離を計算する
+                tempColDistance++;
+                if (!gaps[j]) {
+                    tempColDistance++;
+                }
+            }
+
+            // 小さい方を距離とする。
+            if (tempColDistance < colDistance) {
+                colDistance = tempColDistance;
+            }
+        }
         return colDistance;
     }
     function getRowDistance(): number{
@@ -74,9 +97,9 @@ function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCo
 }
 
 
-const hoge: SkillCoordinate = {row: 9, column: 2}
-const fuga: SkillCoordinate = {row: 7, column: 2}
+const hoge: SkillCoordinate = {row: 1, column: 0}
+const fuga: SkillCoordinate = {row: 0, column: 5}
 const hogeName: string = skillNameList[hoge.row][hoge.column];
 const fugaName: string = skillNameList[fuga.row][fuga.column];
-mokuren = true
+makaiKogaku = true
 console.log(`2d6<=${getAchievementValue(hoge, fuga)} 【${fugaName}(判定: ${hogeName})】`)
