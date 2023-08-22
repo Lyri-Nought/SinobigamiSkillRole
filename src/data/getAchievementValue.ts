@@ -54,6 +54,19 @@ function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCo
         // 縦の距離(行間の距離)を求める
         let rowDistance: number = 0;
         rowDistance = Math.abs(learnedSkill.row - targetSkill.row);
+        if(mokuren){
+		    // 木蓮習得時、反対方法も確認する
+            let tempRowDistance: number = 0;
+            if (learnedSkill.row > targetSkill.row) {
+                tempRowDistance = targetSkill.row + (11 - learnedSkill.row);
+            } else {
+                tempRowDistance = learnedSkill.row + (11 - targetSkill.row);
+            }
+            // 小さい方を距離とする
+            if (tempRowDistance < rowDistance) {
+                rowDistance = tempRowDistance;
+            }
+	    }
         return rowDistance;
     }
     result = initialValue + getRowDistance() + getColDistance();
@@ -61,8 +74,9 @@ function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCo
 }
 
 
-const hoge: SkillCoordinate = {row: 8, column: 2}
-const fuga: SkillCoordinate = {row: 9, column: 1}
+const hoge: SkillCoordinate = {row: 9, column: 2}
+const fuga: SkillCoordinate = {row: 7, column: 2}
 const hogeName: string = skillNameList[hoge.row][hoge.column];
 const fugaName: string = skillNameList[fuga.row][fuga.column];
+mokuren = true
 console.log(`2d6<=${getAchievementValue(hoge, fuga)} 【${fugaName}(判定: ${hogeName})】`)
