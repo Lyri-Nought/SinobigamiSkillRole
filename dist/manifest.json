@@ -1,0 +1,25 @@
+{
+    "name": "シノビガミ特技判定ツール",
+    "description": "ココフォリア上で特技の達成値を判定できます",
+    "version": "1.0",
+    "manifest_version": 3,
+    "icons": {
+        "16": "image/icon16.png",
+        "48": "image/icon48.png",
+        "128": "image/icon128.png"
+    },  
+    "permissions": [ 
+        "storage"
+    ],
+    "action": {
+        "default_icon": "image/icon128.png",
+        "default_title": "シノビガミ特技判定ツール",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [{
+        "matches": ["https://ccfolia.com/rooms/*"],
+        "js": ["app.js"],
+        "css": ["app.css"],
+        "run_at": "document_idle"
+    }]
+}
