@@ -1,5 +1,5 @@
 const gaps: boolean[] = [false, false, false, false, false]; // ギャップ(0番目が器術右)
-const existField: boolean[] = [true, true, true, true, true, true]; // 分野の生命点が存在するかどうか
+
 const skills: boolean[][] = new Array; // 特技の習得状況表
 for(let i: number = 0; i<11; i++){ // 特技の習得状況を初期化
     const newRow: boolean[] = new Array;
@@ -8,8 +8,11 @@ for(let i: number = 0; i<11; i++){ // 特技の習得状況を初期化
     }
     skills.push(newRow);
 }
+
 let makaiKogaku: boolean = false; // 魔界工学(左右を繋げる)
+
 let mokuren: boolean = false; // 木蓮(上下を繋げる)
+
 let tatsujin: boolean = false; // 達人(生命力が失われた分野でも判定できる)
 
 const skillNameList: string[][] = [
@@ -25,3 +28,41 @@ const skillNameList: string[][] = [
     ["壊器術", "刀術", "隠蔽術", "流言の術", "伝達術", "憑依術"],
     ["掘削術", "怪力", "第六感", "経済力", "人脈", "呪術"]
 ]
+
+type SkillCoordinate = {
+    row: number; // 0~10
+    column: number; // 0~5
+}
+
+// 達成値を求める関数
+function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCoordinate): number{
+    const initialValue = 5;
+    let result: number = 0;
+    function getColDistance(): number{
+        // 横の距離(列間の距離)を求める
+        let colDistance: number = 0;
+        colDistance = Math.abs(learnedSkill.column - targetSkill.column);
+        // ギャップの数を求める
+        const left: number = (learnedSkill.column > targetSkill.column) ? targetSkill.column : learnedSkill.column;
+        const right: number = (left === learnedSkill.column) ? targetSkill.column : learnedSkill.column;
+        for(let i: number = left; i < right; i++){
+            if(!gaps[i]) colDistance++;
+        }
+        return colDistance;
+    }
+    function getRowDistance(): number{
+        // 縦の距離(行間の距離)を求める
+        let rowDistance: number = 0;
+        rowDistance = Math.abs(learnedSkill.row - targetSkill.row);
+        return rowDistance;
+    }
+    result = initialValue + getRowDistance() + getColDistance();
+    return result;
+}
+
+
+const hoge: SkillCoordinate = {row: 8, column: 2}
+const fuga: SkillCoordinate = {row: 9, column: 1}
+const hogeName: string = skillNameList[hoge.row][hoge.column];
+const fugaName: string = skillNameList[fuga.row][fuga.column];
+console.log(`2d6<=${getAchievementValue(hoge, fuga)} 【${fugaName}(判定: ${hogeName})】`)
