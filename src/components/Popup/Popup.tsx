@@ -1,71 +1,31 @@
 import React, { Key } from 'react';
 import { useState, useEffect, useRef } from "react";
+import {
+    KeyKind,
+    defaultOpenKey,
+    defaultCopyKey,
+    defaultPasteKey,
+    getKeyConfigInStorage,
+    setKeyConfigInStorage,
+    getAllData,
+    clearData
+} from "./../../data/fetchKeyConfig"
 
 export default function Popup() {
     // キーコンフィグの設定データ
-    type KeyType = "openKey" | "copyKey" | "pasteKey";
-    const defaultOpenKey: string = "a";
-    const defaultCopyKey: string = "c";
-    const defaultPasteKey: string = "v";
     const [openKey, setOpenKey] = useState<string>(defaultOpenKey);
     const [copyKey, setCopyKey] = useState<string>(defaultCopyKey);
     const [pasteKey, setPasteKey] = useState<string>(defaultPasteKey);
-    const [accept, setAccept] = useState<"" | KeyType>(""); // キーボード入力の受け付け
-    const acceptRef = useRef<"" | KeyType>("");
+    const [accept, setAccept] = useState<"" | KeyKind>(""); // キーボード入力の受け付け
+    const acceptRef = useRef<"" | KeyKind>("");
     acceptRef.current = accept;
 
-    function changeAccept(keyType: "" | KeyType): void{
+    function changeAccept(keyKind: "" | KeyKind): void{
         if(accept === ""){
-            setAccept(keyType);
+            setAccept(keyKind);
         }else{
             setAccept("");
         }
-    }
-
-    // chrome.storage.localからキーコンフィグの設定データを取得する関数
-    async function getKeyConfigInStorage(keyType: KeyType): Promise<string>{
-        return new Promise<string>((resolve, reject) => {
-            chrome.storage.local.get(["keyConfig"], function(response){
-                const key: string = response.keyConfig?.[keyType];
-                if(key === undefined){
-                    switch(keyType){
-                        case "openKey":
-                            resolve("a");
-                            break;
-                        case "copyKey":
-                            resolve("c");
-                            break;
-                        case "pasteKey":
-                            resolve("v");
-                            break;
-                    }
-                }else{
-                    resolve(key);
-                }
-            });
-        });
-    }
-
-    // chrome.storage.localにキーコンフィグの設定データを保存する関数
-    async function setKeyConfigInStorage(keyType: KeyType, key: string): Promise<void>{
-        return new Promise<void>((resolve, reject) => {
-            chrome.storage.local.get(["keyConfig"], function(response){
-                const newData = {
-                    keyConfig: {
-                        [keyType]: key
-                    }
-                }
-                const mergedData: any = {
-                    keyConfig: {
-                        ...response.keyConfig,
-                        ...newData.keyConfig
-                    }
-                };
-                chrome.storage.local.set(mergedData, function() {
-                    resolve();
-                });
-            });
-        });
     }
 
     // Stateをchrome.storage.localのデータで初期化する
@@ -101,10 +61,10 @@ export default function Popup() {
                 setPasteKey(inputKey);
                 break;
         }
-        setKeyConfigInStorage(acceptRef.current as KeyType, inputKey);
+        setKeyConfigInStorage(acceptRef.current as KeyKind, inputKey);
         setAccept("");
     }
-    
+
     // キーコンフィグを初期化する関数
     function initializeKeyConfig(): void{
         setAccept("");
@@ -114,15 +74,6 @@ export default function Popup() {
         setKeyConfigInStorage("copyKey", "c");
         setPasteKey("v");
         setKeyConfigInStorage("pasteKey", "v");
-    }
-
-    function getAllData(): void{
-        chrome.storage.local.get(function(result) {
-            console.log(result);
-        });
-    }
-    function clearData(): void{
-        chrome.storage.local.clear();
     }
 
     return (

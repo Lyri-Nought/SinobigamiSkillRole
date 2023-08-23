@@ -1,1 +1,1 @@
-(()=>{"use strict";console.log("hoge")})();
+(()=>{"use strict";console.log(location.href)})();

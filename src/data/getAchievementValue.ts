@@ -1,14 +1,5 @@
 const gaps: boolean[] = [false, false, false, false, false]; // ギャップ(0番目が器術右)
 
-const skills: boolean[][] = new Array; // 特技の習得状況表
-for(let i: number = 0; i<11; i++){ // 特技の習得状況を初期化
-    const newRow: boolean[] = new Array;
-    for(let j: number = 0; j<6; j++){
-        newRow.push(false);
-    }
-    skills.push(newRow);
-}
-
 let makaiKogaku: boolean = false; // 魔界工学(左右を繋げる)
 
 let mokuren: boolean = false; // 木蓮(上下を繋げる)
@@ -29,7 +20,7 @@ const skillNameList: string[][] = [
     ["掘削術", "怪力", "第六感", "経済力", "人脈", "呪術"]
 ]
 
-type SkillCoordinate = {
+export type SkillCoordinate = {
     row: number; // 0~10
     column: number; // 0~5
 }
@@ -89,7 +80,7 @@ function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCo
             if (tempRowDistance < rowDistance) {
                 rowDistance = tempRowDistance;
             }
-	    }
+        }
         return rowDistance;
     }
     result = initialValue + getRowDistance() + getColDistance();
