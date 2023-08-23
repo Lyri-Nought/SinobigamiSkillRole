@@ -8,9 +8,15 @@ type CharacterData = {
     tatsujin: boolean; // 達人
 }
 
+// クリップボードからキャラシデータを取得する関数
+export function getCharacterDataFromClipboard(): CharacterData | null{
+    const clipText: string = readClipboard();
+    const characterData: CharacterData | null = convertTextCharacterData(clipText);
+    return characterData;
+}
+
 // クリップボードにコピーしたテキスト形式のキャラシデータをオブジェクトに変換する関数
-export function convertTextCharacterData(text: string): CharacterData{
-    // TODO フォーマットチェック
+function convertTextCharacterData(text: string): CharacterData | null{
     const result: CharacterData = {
         gaps: [],
         skills: [],
@@ -18,7 +24,51 @@ export function convertTextCharacterData(text: string): CharacterData{
         mokuren:false,
         tatsujin: false
     };
-    return result;
+    try{
+        // テキストをキャラシデータのオブジェクトに変換する
+        const convertedData: CharacterData = JSON.parse(text);
+        // gapsのチェックを行う
+        for(let i: number = 0; i < 6; i++){
+            if(typeof convertedData.gaps[i] !== "boolean"){
+                throw new Error("gapsが不正です");
+            }
+        }
+        // skillsのチェックを行う
+        for(const elm of convertedData.skills){
+            if(!((0 <= elm.row && elm.row < 11) && (0 <= elm.column && elm.column < 6))){
+                throw new Error("skillsが不正です");
+            }
+        }
+        // makaiKogakuのチェックを行う
+        if(typeof convertedData.makaiKogaku !== "boolean"){
+            throw new Error("makaiKogakuが不正です");
+        }
+        // mokurenのチェックを行う
+        if(typeof convertedData.mokuren !== "boolean"){
+            throw new Error("mokurenが不正です");
+        }
+        // tatsujinのチェックを行う
+        if(typeof convertedData.tatsujin !== "boolean"){
+            throw new Error("tatsujinが不正です");
+        }
+        // 必要なデータをコピーする
+        result.gaps = convertedData.gaps;
+        result.skills = convertedData.skills;
+        result.makaiKogaku = convertedData.makaiKogaku;
+        result.mokuren = convertedData.mokuren;
+        result.tatsujin = convertedData.tatsujin;
+        return result;
+    }catch(error: any){
+        return null;
+    }
+}
+
+// クリップボードからテキストを取得する関数
+function readClipboard(): string{
+    navigator.clipboard.readText().then((clipText) => {
+        return clipText;
+    });
+    return "";
 }
 
 // キャラシのデータをクリップボードにコピーする関数

@@ -6,7 +6,7 @@ let mokuren: boolean = false; // 木蓮(上下を繋げる)
 
 let tatsujin: boolean = false; // 達人(生命力が失われた分野でも判定できる)
 
-const skillNameList: string[][] = [
+export const skillNameList: string[][] = [
     ["絡繰術", "騎乗術", "生存術", "医術", "兵糧術", "異形化"],
     ["火術", "砲術", "潜伏術", "毒術", "鳥獣術", "召喚術"],
     ["水術", "手裏剣術", "遁走術", "罠術", "野戦術", "死霊術"],
