@@ -7,29 +7,67 @@ type CharacterData = {
     mokuren: boolean; // 木蓮
     tatsujin: boolean; // 達人
 }
+
+// クリップボードにコピーしたテキスト形式のキャラシデータをオブジェクトに変換する関数
+export function convertTextCharacterData(text: string): CharacterData{
+    // TODO フォーマットチェック
+    const result: CharacterData = {
+        gaps: [],
+        skills: [],
+        makaiKogaku: false,
+        mokuren:false,
+        tatsujin: false
+    };
+    return result;
+}
+
 // キャラシのデータをクリップボードにコピーする関数
 export function copyCharacterDataToClipboard(): void{
     if(document.querySelector("#skills\\.row0 > td:nth-child(2)")){
         const characterData: CharacterData = getCharacterData();
         const characterDataStr: string = JSON.stringify(characterData);
-        if(navigator.clipboard){
-            navigator.clipboard.writeText(characterDataStr);
-            window.alert("キャラクターの習得特技をクリップボードにコピーしました。")
-        }
+        pasteClipboard(characterDataStr);
+        window.alert("キャラクターの習得特技をクリップボードにコピーしました。")
     }else{
         window.alert("キャラクターの習得特技を取得できませんでした。\nキャラクターシート上で実行してください。")
+    }
+}
+
+// クリップボードにテキストをコピーする関数
+function pasteClipboard(text: string): void{
+    if(navigator.clipboard){
+        navigator.clipboard.writeText(text);
+    }else{
+        // httpではclipboardAPIが使えないので、非推奨ではあるがexecCommandを使う必要がある
+        const tempElm: HTMLInputElement = document.createElement("input");
+        tempElm.value = text;
+        document.body.appendChild(tempElm);
+        tempElm.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempElm);
     }
 }
 
 // キャラシのデータを取得する関数
 function getCharacterData(): CharacterData{
     const result: CharacterData = {
-        gaps: [],
+        gaps: getGaps(),
         skills: getLearnedSkills(),
         makaiKogaku: getIsChecked("#skills\\.f"),
         mokuren: getIsChecked("#skills\\.outRow"),
         tatsujin: getNinpoName("達人")
     };
+    return result;
+}
+
+// キャラシから塗りつぶされたギャップ列を取得する関数
+function getGaps(): boolean[]{
+    const result: boolean[] = [false, false, false, false, false];
+    result[0] = getIsChecked("#skills\\.a");
+    result[1] = getIsChecked("#skills\\.b");
+    result[2] = getIsChecked("#skills\\.c");
+    result[3] = getIsChecked("#skills\\.d");
+    result[4] = getIsChecked("#skills\\.e");
     return result;
 }
 
@@ -69,6 +107,7 @@ function getNinpoName(name: string): boolean{
     return result;
 }
 
+// チェックボックスにチェックが入っているかどうかを取得する関数
 function getIsChecked(query: string): boolean{
     let result: boolean = false;
     const inputElement: HTMLInputElement | null = document.querySelector(query);
