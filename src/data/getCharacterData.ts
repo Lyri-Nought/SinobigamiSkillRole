@@ -25,9 +25,9 @@ function getCharacterData(): CharacterData{
     const result: CharacterData = {
         gaps: [],
         skills: getLearnedSkills(),
-        makaiKogaku: false,
-        mokuren: false,
-        tatsujin: false
+        makaiKogaku: getIsChecked("#skills\\.f"),
+        mokuren: getIsChecked("#skills\\.outRow"),
+        tatsujin: getNinpoName("達人")
     };
     return result;
 }
@@ -48,5 +48,29 @@ function getLearnedSkills(): SkillCoordinate[]{
             }
         }
     }
+    return result;
+}
+
+// 特定の忍法を習得しているかどうかを取得する関数
+function getNinpoName(name: string): boolean{
+    let result: boolean = false;
+    const ninpoList: HTMLTableSectionElement | null =document.querySelector("#ninpou > tbody");
+    const trElements: NodeListOf<HTMLTableRowElement> | undefined = ninpoList?.querySelectorAll("tr");
+    if(trElements?.length){
+        for(let i: number = 0; i < trElements?.length; i++){
+            const inputElement: HTMLInputElement | null = trElements[i].querySelectorAll("input")[2];
+            const ninpoName: string = inputElement.value;
+            if(ninpoName === name){
+                result = true;
+            }
+        }
+    }
+    return result;
+}
+
+function getIsChecked(query: string): boolean{
+    let result: boolean = false;
+    const inputElement: HTMLInputElement | null = document.querySelector(query);
+    if(inputElement?.checked) result = true;
     return result;
 }
