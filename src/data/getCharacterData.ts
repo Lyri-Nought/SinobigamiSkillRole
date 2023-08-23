@@ -8,12 +8,13 @@ type CharacterData = {
     tatsujin: boolean; // 達人
 }
 // キャラシのデータをクリップボードにコピーする関数
-function copyCharacterDataToClipboard(): void{
+export function copyCharacterDataToClipboard(): void{
     if(document.querySelector("#skills\\.row0 > td:nth-child(2)")){
         const characterData: CharacterData = getCharacterData();
         const characterDataStr: string = JSON.stringify(characterData);
         if(navigator.clipboard){
             navigator.clipboard.writeText(characterDataStr);
+            window.alert("キャラクターの習得特技をクリップボードにコピーしました。")
         }
     }else{
         window.alert("キャラクターの習得特技を取得できませんでした。\nキャラクターシート上で実行してください。")
