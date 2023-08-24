@@ -5,6 +5,13 @@ import Draggable from 'react-draggable';
 import Header from "./Header"
 import SkillTable from "./SkillTable"
 
+// TODO マウスカーソルの見た目
+// TODO Helpボタン
+// TODO 詳細表示
+// TODO ギャップの選択
+// TODO 分野のon/off
+// TODO 妖理選択
+
 const theme = createTheme({
     palette: {
         primary: {
@@ -13,6 +20,9 @@ const theme = createTheme({
         secondary: {
             main: "rgba(0,0,0,0)" // セカンダリーカラーを無色に設定
         },
+        info: {
+            main: "#2196f3"
+        }
     },
     typography: {
         button: {
@@ -21,17 +31,10 @@ const theme = createTheme({
         },
     },
     components: {
-        MuiRadio: {
+        MuiCheckbox: {
             styleOverrides: {
                 root: {
                     color: 'white', // 非アクティブ時のカラーを白に設定
-                },
-            },
-        },
-        MuiSlider: {
-            styleOverrides: {
-                markLabel: {
-                    color: 'white', // カスタムテキストカラーを指定
                 },
             },
         },
