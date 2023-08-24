@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Paper, Button, FormControl, FormControlLabel, RadioGroup, Radio, Slider } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
+import Header from "./Header"
 import SkillTable from "./SkillTable"
-import { decrementParamsWithResult } from "./../../data/rollDiceFromResult"
 
 const theme = createTheme({
     palette: {
@@ -94,6 +94,7 @@ export default function App(){
                             }}
                             elevation={10}
                         >
+                            <Header/>
                             <SkillTable/>
                         </Paper>
                     </Draggable>
