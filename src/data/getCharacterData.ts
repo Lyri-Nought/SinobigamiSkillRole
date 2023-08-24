@@ -6,6 +6,7 @@ type CharacterData = {
     makaiKogaku: boolean; // 魔界工学
     mokuren: boolean; // 木蓮
     tatsujin: boolean; // 達人
+    yori: SkillCoordinate | null; // 妖理
 }
 
 // クリップボードにコピーしたテキスト形式のキャラシデータをオブジェクトに変換する関数
@@ -16,7 +17,8 @@ export function convertTextCharacterData(text: string): CharacterData{
         skills: [],
         makaiKogaku: false,
         mokuren:false,
-        tatsujin: false
+        tatsujin: false,
+        yori: null
     };
     return result;
 }
@@ -55,7 +57,8 @@ function getCharacterData(): CharacterData{
         skills: getLearnedSkills(),
         makaiKogaku: getIsChecked("#skills\\.f"),
         mokuren: getIsChecked("#skills\\.outRow"),
-        tatsujin: getNinpoName("達人")
+        tatsujin: getNinpoName("達人"),
+        yori: null
     };
     return result;
 }
