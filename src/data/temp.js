@@ -1,6 +1,9 @@
+getCharacterDataFromClipboard() 
+
 // クリップボードからキャラシデータを取得する関数
 function getCharacterDataFromClipboard() {
-    var clipText = readClipboard();
+    //var clipText = readClipboard();
+    var clipText = `{"gaps":[false,false,false,false,true],"skills":[{"row":0,"column":4},{"row":0,"column":5},{"row":1,"column":1},{"row":4,"column":3},{"row":8,"column":1},{"row":10,"column":5}],"makaiKogaku":false,"mokuren":false,"tatsujin":false,"yori":[]}`
     var characterData = convertTextCharacterData(clipText);
     return characterData;
 }
@@ -11,14 +14,15 @@ function convertTextCharacterData(text) {
         skills: [],
         makaiKogaku: false,
         mokuren: false,
-        tatsujin: false
+        tatsujin: [],
+        yori: []
     };
     try {
         // テキストをキャラシデータのオブジェクトに変換する
-        var convertedData = JSON.parse(`"${text}"`);
+        var convertedData = JSON.parse(text);
         console.log("obj", convertedData)
         // gapsのチェックを行う
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < 5; i++) {
             if (typeof convertedData.gaps[i] !== "boolean") {
                 throw new Error("gapsが不正です");
             }
@@ -39,8 +43,16 @@ function convertTextCharacterData(text) {
             throw new Error("mokurenが不正です");
         }
         // tatsujinのチェックを行う
-        if (typeof convertedData.tatsujin !== "boolean") {
-            throw new Error("tatsujinが不正です");
+        for (var _i = 0, _a = convertedData.tatsujin; _i < _a.length; _i++) {
+            if (typeof convertedData.tatsujin[i] !== "boolean") {
+                throw new Error("tatsujinが不正です");
+            }
+        }
+        // yoriのチェックを行う
+        for (var _i = 0, _a = convertedData.yori; _i < _a.length; _i++) {
+            if (typeof convertedData.tatsujin[i] !== "boolean") {
+                throw new Error("tatsujinが不正です");
+            }
         }
         // 必要なデータをコピーする
         result.gaps = convertedData.gaps;
@@ -155,12 +167,3 @@ function getIsChecked(query) {
 }
 
 
-document.addEventListener("click", () => {
-    const data = getCharacterDataFromClipboard()
-            console.log(data)
-    if(data){
-
-    }else{
-        window.alert("クリップボードからのデータ読み込みに失敗しました")
-    }
-})
