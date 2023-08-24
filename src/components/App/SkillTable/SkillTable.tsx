@@ -1,17 +1,22 @@
-import React from 'react';
-import { skillNameList, fieldNameList } from "./../../data/getAchievementValue"
-import { FormControlLabel, Button, Checkbox } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { skillNameList, fieldNameList } from "../../../data/getAchievementValue"
+import { FormControlLabel, Checkbox } from '@mui/material';
+import { DataContext, DataProviderType } from '../../../providers/App/DataProvider';
+import GapCell from "./GapCell"
+
+export type BorderStyle = {
+    borderLeft: string;
+    borderRight: string;
+    borderTop: string;
+    borderBottom: string;
+};
 
 export default function SkillTable(){
-    const gapWidth: string = "1rem";
+    const [mouseGapHover, setMouseGapHover] = useState<number | null>(null); // ギャップのhover処理用State
+    const [mouseGapClick, setMouseGapClick] = useState<number | null>(null); // ギャップのclick処理用State
+    const characterData = useContext<DataProviderType | null>(DataContext);
 
     // テーブルの外側線を無くしたborderのスタイルを取得する関数
-    type BorderStyle = {
-        borderLeft: string;
-        borderRight: string;
-        borderTop: string;
-        borderBottom: string;
-    };
     function getBorderStyle(row: number, col: number): BorderStyle{
         const rowTopEdge: number = 0;
         const rowBottomEdge: number = 10;
@@ -39,20 +44,44 @@ export default function SkillTable(){
         return result;
     }
 
+    // 適切な背景色を取得する関数
+    function getBackgroundColor(isAble: boolean, isHovered: boolean, isClicked: boolean): string{
+        const colors: string[] = ["", "rgba(255, 255, 255, 0.08)", "rgba(255, 255, 255, 0.4)", "white"];
+        if(isClicked){
+            return colors[2];  
+        }else{
+            if(isAble){
+                return colors[3];
+            }else{
+                if(isHovered){
+                    return colors[1]
+                }else{
+                    return colors[0];
+                }
+            }
+        }
+    }
+
     return (
         <table
+            className="draggable-disable"
             style={{
                 borderCollapse: "collapse",
-                textAlign: "center"
+                textAlign: "center",
+                cursor: "pointer"
             }}
         >
             <tr style={{borderBottom: "solid 1px rgb(152, 152, 152)"}}>
                 {fieldNameList.map((fieldName, index) =>
                     <React.Fragment key={index}>
-                        <td style={{
-                            borderLeft: `${(index === 0) ? "none" : "solid 1px rgb(152, 152, 152)"}`
-                        }}/>
-                        <td style={{borderBottom: "solid 1px rgb(152, 152, 152)"}}>
+                        <td
+                            style={{
+                                paddingLeft: "1rem",
+                                borderLeft: `${(index === 0) ? "none" : "solid 1px rgb(152, 152, 152)"}`,
+                                borderBottom: "solid 1px rgb(152, 152, 152)"
+                            }}
+                            colSpan={2}
+                        >
                             <FormControlLabel
                                 className="draggable-disable"
                                 control={
@@ -72,7 +101,16 @@ export default function SkillTable(){
                 <tr>
                     {skillRow.map((skillName, colIndex) =>
                         <React.Fragment key={`${colIndex}-${rowIndex}`}>
-                            <td style={Object.assign({width: gapWidth}, getBorderStyle(rowIndex, colIndex))}/>
+                            <GapCell
+                                rowIndex={rowIndex}
+                                colIndex={colIndex}
+                                mouseGapHover={mouseGapHover}
+                                setMouseGapHover={setMouseGapHover}
+                                mouseGapClick={mouseGapClick}
+                                setMouseGapClick={setMouseGapClick}
+                                getBorderStyle={getBorderStyle}
+                                getBackgroundColor={getBackgroundColor}
+                            />
                             <td style={getBorderStyle(rowIndex, colIndex)}>{skillName}</td>
                         </React.Fragment>
                     )}

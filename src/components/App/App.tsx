@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import Header from "./Header"
 import Option from "./Option"
-import SkillTable from "./SkillTable"
+import SkillTable from "./SkillTable/SkillTable"
 import { getKeyConfigInStorage } from "./../../data/fetchKeyConfig"
 
 // TODO マウスカーソルの見た目

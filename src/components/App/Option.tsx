@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FormControlLabel, Button, Checkbox } from '@mui/material';
+import { DataContext, DataProviderType } from '../../providers/App/DataProvider';
 
 export default function Option() {
+    const characterData = useContext<DataProviderType | null>(DataContext);
+
     return (
         <div
             style={{
@@ -15,8 +18,10 @@ export default function Option() {
                 control={
                     <Checkbox
                         color="info"
-                        // checked={false}
-                        onClick={() => {}}
+                        checked={characterData?.makaiKogaku}
+                        onClick={() => {
+                            if(characterData) characterData.setMakaiKogaku((prev) => !prev);
+                        }}
                     />
                 }
                 label="魔界工学"

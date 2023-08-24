@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, ReactNode, useRef } from 're
 import { SkillCoordinate } from "../../data/getAchievementValue"
 import { CharacterData } from '../../data/getCharacterData';
 
-export const DataContext = createContext<{
+export type DataProviderType = {
     gaps: boolean[];
     setGaps: React.Dispatch<React.SetStateAction<boolean[]>>;
     fields: boolean[];
@@ -17,7 +17,9 @@ export const DataContext = createContext<{
     setTatsujin: React.Dispatch<React.SetStateAction<SkillCoordinate[]>>;
     yori: SkillCoordinate[];
     setYori: React.Dispatch<React.SetStateAction<SkillCoordinate[]>>;
-} | null>(null)
+}
+
+export const DataContext = createContext<DataProviderType | null>(null)
 
 export function DataProvider({children}: {children: ReactNode}){
     const [gaps, setGaps] = useState<boolean[]>([false, false, false, false, false]);
