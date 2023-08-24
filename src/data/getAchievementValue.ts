@@ -4,7 +4,9 @@ let makaiKogaku: boolean = false; // 魔界工学(左右を繋げる)
 
 let mokuren: boolean = false; // 木蓮(上下を繋げる)
 
-let tatsujin: boolean = false; // 達人(生命力が失われた分野でも判定できる)
+let tatsujin: SkillCoordinate[] = []; // 達人(生命力が失われた分野でも判定できる)
+
+let yori: SkillCoordinate[] = []; // 妖理
 
 export const skillNameList: string[][] = [
     ["絡繰術", "騎乗術", "生存術", "医術", "兵糧術", "異形化"],
@@ -19,6 +21,8 @@ export const skillNameList: string[][] = [
     ["壊器術", "刀術", "隠蔽術", "流言の術", "伝達術", "憑依術"],
     ["掘削術", "怪力", "第六感", "経済力", "人脈", "呪術"]
 ]
+
+export const fieldNameList: string[] = ["器術", "体術", "忍術", "謀術", "戦術", "妖術"]
 
 export type SkillCoordinate = {
     row: number; // 0~10
@@ -84,6 +88,14 @@ function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCo
         return rowDistance;
     }
     result = initialValue + getRowDistance() + getColDistance();
+    for(const elm of yori){
+        if((elm.row === learnedSkill.row) && (elm.column === learnedSkill.column)){
+            if((elm.row !== targetSkill.row) && (elm.column !== targetSkill.column)){
+                // 妖理時、指定特技と判定特技が斜めの関係なら達成値-1
+                result -= 1;
+            }
+        }
+    }
     return result;
 }
 

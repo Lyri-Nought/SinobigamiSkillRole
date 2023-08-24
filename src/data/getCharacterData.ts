@@ -1,11 +1,12 @@
 import { SkillCoordinate } from "./getAchievementValue"
 
-type CharacterData = {
+export type CharacterData = {
     gaps: boolean[]; // ギャップ
     skills: SkillCoordinate[]; // 特技の習得状況
     makaiKogaku: boolean; // 魔界工学
     mokuren: boolean; // 木蓮
     tatsujin: boolean; // 達人
+    yori: SkillCoordinate[]; // 妖理
 }
 
 // クリップボードからキャラシデータを取得する関数
@@ -22,7 +23,8 @@ function convertTextCharacterData(text: string): CharacterData | null{
         skills: [],
         makaiKogaku: false,
         mokuren:false,
-        tatsujin: false
+        tatsujin: false,
+        yori: []
     };
     try{
         // テキストをキャラシデータのオブジェクトに変換する
@@ -105,7 +107,8 @@ function getCharacterData(): CharacterData{
         skills: getLearnedSkills(),
         makaiKogaku: getIsChecked("#skills\\.f"),
         mokuren: getIsChecked("#skills\\.outRow"),
-        tatsujin: getNinpoName("達人")
+        tatsujin: getNinpoName("達人"),
+        yori: []
     };
     return result;
 }
