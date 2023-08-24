@@ -6,9 +6,9 @@ let mokuren: boolean = false; // 木蓮(上下を繋げる)
 
 let tatsujin: boolean = false; // 達人(生命力が失われた分野でも判定できる)
 
-let yori: SkillCoordinate | null = null; // 妖理
+let yori: SkillCoordinate[] = []; // 妖理
 
-const skillNameList: string[][] = [
+export const skillNameList: string[][] = [
     ["絡繰術", "騎乗術", "生存術", "医術", "兵糧術", "異形化"],
     ["火術", "砲術", "潜伏術", "毒術", "鳥獣術", "召喚術"],
     ["水術", "手裏剣術", "遁走術", "罠術", "野戦術", "死霊術"],
@@ -86,9 +86,9 @@ function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCo
         return rowDistance;
     }
     result = initialValue + getRowDistance() + getColDistance();
-    if(yori !== null){
-        if((yori.row === learnedSkill.row) && (yori.column === learnedSkill.column)){
-            if((yori.row !== targetSkill.row) && (yori.column !== targetSkill.column)){
+    for(const elm of yori){
+        if((elm.row === learnedSkill.row) && (elm.column === learnedSkill.column)){
+            if((elm.row !== targetSkill.row) && (elm.column !== targetSkill.column)){
                 // 妖理時、指定特技と判定特技が斜めの関係なら達成値-1
                 result -= 1;
             }

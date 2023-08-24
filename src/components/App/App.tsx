@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Paper, Button, FormControl, FormControlLabel, RadioGroup, Radio, Slider } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
+import SkillTable from "./SkillTable"
 import { decrementParamsWithResult } from "./../../data/rollDiceFromResult"
 
 const theme = createTheme({
@@ -41,9 +42,8 @@ export default function App(){
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
-
-    const width: number = 1000;
-    const height: number = 800;
+    const [width, setWidth] = useState<number>(491);
+    const [height, setHeight] = useState<number>(274);
 
     function handleKeyDown(event: KeyboardEvent){
         if (event.altKey && event.key === 'a') {
@@ -94,6 +94,7 @@ export default function App(){
                             }}
                             elevation={10}
                         >
+                            <SkillTable/>
                         </Paper>
                     </Draggable>
                 </ThemeProvider>
