@@ -4,7 +4,7 @@ let makaiKogaku: boolean = false; // 魔界工学(左右を繋げる)
 
 let mokuren: boolean = false; // 木蓮(上下を繋げる)
 
-let tatsujin: boolean = false; // 達人(生命力が失われた分野でも判定できる)
+let tatsujin: SkillCoordinate[] = []; // 達人(生命力が失われた分野でも判定できる)
 
 let yori: SkillCoordinate[] = []; // 妖理
 

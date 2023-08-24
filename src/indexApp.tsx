@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./components/App/App"
+import { DataProvider } from "./providers/App/DataProvider"
 import { getKeyConfigInStorage } from "./data/fetchKeyConfig"
 import { copyCharacterDataToClipboard } from "./data/getCharacterData"
 
@@ -17,7 +18,9 @@ function addPortalRoot(): HTMLDivElement{ // ポータルを追加するため�
 async function renderApp(portal: HTMLDivElement): Promise<void>{ // ポータルにAppコンポーネントを追加する関数
     ReactDOM.render(
         <React.StrictMode>
-            <App/>
+            <DataProvider>
+                <App/>
+            </DataProvider>
         </React.StrictMode>,
         portal
     );

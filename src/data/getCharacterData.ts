@@ -1,6 +1,6 @@
 import { SkillCoordinate } from "./getAchievementValue"
 
-type CharacterData = {
+export type CharacterData = {
     gaps: boolean[]; // ギャップ
     skills: SkillCoordinate[]; // 特技の習得状況
     makaiKogaku: boolean; // 魔界工学
