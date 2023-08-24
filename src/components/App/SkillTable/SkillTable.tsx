@@ -3,6 +3,7 @@ import { skillNameList, fieldNameList } from "../../../data/getAchievementValue"
 import { FormControlLabel, Checkbox } from '@mui/material';
 import { DataContext, DataProviderType } from '../../../providers/App/DataProvider';
 import GapCell from "./GapCell"
+import FieldCell from "./FieldCell"
 
 export type BorderStyle = {
     borderLeft: string;
@@ -73,28 +74,7 @@ export default function SkillTable(){
         >
             <tr style={{borderBottom: "solid 1px rgb(152, 152, 152)"}}>
                 {fieldNameList.map((fieldName, index) =>
-                    <React.Fragment key={index}>
-                        <td
-                            style={{
-                                paddingLeft: "1rem",
-                                borderLeft: `${(index === 0) ? "none" : "solid 1px rgb(152, 152, 152)"}`,
-                                borderBottom: "solid 1px rgb(152, 152, 152)"
-                            }}
-                            colSpan={2}
-                        >
-                            <FormControlLabel
-                                className="draggable-disable"
-                                control={
-                                    <Checkbox
-                                        color="primary"
-                                        // checked={false}
-                                        onClick={() => {}}
-                                    />
-                                }
-                                label={fieldName}
-                            />
-                        </td>
-                    </React.Fragment>
+                    <FieldCell fieldName={fieldName} index={index}/>
                 )}
             </tr>
             {skillNameList.map((skillRow, rowIndex) => 
