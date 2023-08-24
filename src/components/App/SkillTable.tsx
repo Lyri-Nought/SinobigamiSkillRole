@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { skillNameList } from "./../../data/getAchievementValue"
+import React from 'react';
+import { skillNameList, fieldNameList } from "./../../data/getAchievementValue"
+import { FormControlLabel, Button, Checkbox } from '@mui/material';
 
 export default function SkillTable(){
     const gapWidth: string = "1rem";
@@ -16,7 +17,7 @@ export default function SkillTable(){
         const rowBottomEdge: number = 10;
         const colLeftEdge: number = 0;
         const colRightEdge: number = 5;
-        const borderStyle: string = "solid 1px white";
+        const borderStyle: string = "solid 1px rgb(152, 152, 152)";
         let result: BorderStyle = {
             borderLeft: "none",
             borderRight: "none",
@@ -39,7 +40,34 @@ export default function SkillTable(){
     }
 
     return (
-        <table style={{borderCollapse: "collapse"}}>
+        <table
+            style={{
+                borderCollapse: "collapse",
+                textAlign: "center"
+            }}
+        >
+            <tr style={{borderBottom: "solid 1px rgb(152, 152, 152)"}}>
+                {fieldNameList.map((fieldName, index) =>
+                    <React.Fragment key={index}>
+                        <td style={{
+                            borderLeft: `${(index === 0) ? "none" : "solid 1px rgb(152, 152, 152)"}`
+                        }}/>
+                        <td style={{borderBottom: "solid 1px rgb(152, 152, 152)"}}>
+                            <FormControlLabel
+                                className="draggable-disable"
+                                control={
+                                    <Checkbox
+                                        color="primary"
+                                        // checked={false}
+                                        onClick={() => {}}
+                                    />
+                                }
+                                label={fieldName}
+                            />
+                        </td>
+                    </React.Fragment>
+                )}
+            </tr>
             {skillNameList.map((skillRow, rowIndex) => 
                 <tr>
                     {skillRow.map((skillName, colIndex) =>
@@ -50,6 +78,15 @@ export default function SkillTable(){
                     )}
                 </tr>
             )} 
+            <tr>
+                <td
+                    style={{
+                        borderTop: "solid 1px rgb(152, 152, 152)",
+                        height: "1rem"
+                    }}
+                    colSpan={12}
+                />
+            </tr>
         </table>
     );
 };

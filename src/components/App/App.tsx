@@ -3,6 +3,7 @@ import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import Header from "./Header"
+import Option from "./Option"
 import SkillTable from "./SkillTable"
 import { getKeyConfigInStorage } from "./../../data/fetchKeyConfig"
 
@@ -97,11 +98,15 @@ export default function App(){
                                 borderRadius: "0",
                                 minWidth: `${width}px`,
                                 minHeight: `${height}px`,
+                                userSelect: "none"
                             }}
                             elevation={10}
                         >
                             <Header/>
-                            <SkillTable/>
+                            <div>
+                                <Option/>
+                                <SkillTable/>
+                            </div>
                         </Paper>
                     </Draggable>
                 </ThemeProvider>

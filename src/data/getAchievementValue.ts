@@ -22,6 +22,8 @@ export const skillNameList: string[][] = [
     ["掘削術", "怪力", "第六感", "経済力", "人脈", "呪術"]
 ]
 
+export const fieldNameList: string[] = ["器術", "体術", "忍術", "謀術", "戦術", "妖術"]
+
 export type SkillCoordinate = {
     row: number; // 0~10
     column: number; // 0~5
