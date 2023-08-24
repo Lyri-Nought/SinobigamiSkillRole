@@ -7,11 +7,8 @@ import Option from "./Option"
 import SkillTable from "./SkillTable/SkillTable"
 import { getKeyConfigInStorage } from "./../../data/fetchKeyConfig"
 
-// TODO マウスカーソルの見た目
 // TODO Helpボタン
 // TODO 詳細表示
-// TODO ギャップの選択
-// TODO 分野のon/off
 // TODO 妖理選択
 
 const theme = createTheme({
@@ -47,8 +44,8 @@ export default function App(){
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
-    const [width, setWidth] = useState<number>(491);
-    const [height, setHeight] = useState<number>(274);
+    const [width, setWidth] = useState<number>(580.250);
+    const [height, setHeight] = useState<number>(425);
 
     function handleKeyDown(event: KeyboardEvent){
         getKeyConfigInStorage("openKey").then((openKey) => {
@@ -102,7 +99,7 @@ export default function App(){
                             }}
                             elevation={10}
                         >
-                            <Header/>
+                            <Header setIsVisible={setIsVisible}/>
                             <div>
                                 <Option/>
                                 <SkillTable/>

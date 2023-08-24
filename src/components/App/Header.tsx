@@ -1,9 +1,9 @@
 import React from 'react';
 import { Paper, IconButton } from '@mui/material';
 import Help from './../../svg/Help'
-import Triangle from './../../svg/Triangle'
+import Close from './../../svg/Close'
 
-export default function Header() {
+export default function Header({setIsVisible}: {setIsVisible: React.Dispatch<React.SetStateAction<boolean>>}) {
     return (
             <Paper
                 elevation={4}
@@ -45,8 +45,9 @@ export default function Header() {
                             margin: "0 -3px 0 4px",
                             padding: "3px"
                         }}
+                        onClick={() => setIsVisible(false)}
                     >
-                        <Triangle />
+                        <Close/>
                     </IconButton>
                 </div>
             </Paper>
