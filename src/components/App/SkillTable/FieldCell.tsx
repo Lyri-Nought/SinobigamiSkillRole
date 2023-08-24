@@ -19,8 +19,16 @@ export default function FieldCell({fieldName, index}: {fieldName: string, index:
                 control={
                     <Checkbox
                         color="primary"
-                        // checked={false}
-                        onClick={() => {}}
+                        checked={characterData?.fields[index]}
+                        onClick={() => {
+                            if(characterData){
+                                characterData.setFields((prev) => {
+                                    const newGaps = [...prev];
+                                    newGaps[index] = !prev[index];
+                                    return newGaps;
+                                })
+                            }
+                        }}
                     />
                 }
                 label={fieldName}
