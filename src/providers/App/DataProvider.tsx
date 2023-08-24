@@ -1,12 +1,6 @@
 import React, { createContext, useState, useEffect, ReactNode, useRef } from 'react';
 import { SkillCoordinate } from "../../data/getAchievementValue"
 import { CharacterData } from '../../data/getCharacterData';
-import {
-    KeyKind,
-    defaultOpenKey,
-    defaultPasteKey,
-    getKeyConfigInStorage,
-} from "./../../data/fetchKeyConfig"
 
 export const DataContext = createContext<{
     gaps: boolean[];
@@ -21,8 +15,6 @@ export const DataContext = createContext<{
     setTatsujin: React.Dispatch<React.SetStateAction<SkillCoordinate[]>>;
     yori: SkillCoordinate[];
     setYori: React.Dispatch<React.SetStateAction<SkillCoordinate[]>>;
-    openKeyRef:  React.MutableRefObject<string>;
-    pasteKeyRef:  React.MutableRefObject<string>;
 } | null>(null)
 
 export function DataProvider({children}: {children: ReactNode}){
@@ -32,22 +24,6 @@ export function DataProvider({children}: {children: ReactNode}){
     const [mokuren, setMokuren] = useState<boolean>(false);
     const [tatsujin, setTatsujin] = useState<SkillCoordinate[]>([]);
     const [yori, setYori] = useState<SkillCoordinate[]>([]);
-
-    const [openKey, setOpenKey] = useState<string>(defaultOpenKey);
-    const [pasteKey, setPasteKey] = useState<string>(defaultPasteKey);
-    const openKeyRef = useRef<string>("");
-    openKeyRef.current = openKey;
-    const pasteKeyRef = useRef<string>("");
-    pasteKeyRef.current = pasteKey;
-
-    useEffect(() => {
-        getKeyConfigInStorage("openKey").then((response) => {
-            setOpenKey(response);
-        })
-        getKeyConfigInStorage("pasteKey").then((response) => {
-            setPasteKey(response);
-        })
-    }, []);
 
     return (
         <DataContext.Provider value={{
@@ -62,9 +38,7 @@ export function DataProvider({children}: {children: ReactNode}){
             tatsujin,
             setTatsujin,
             yori,
-            setYori,
-            openKeyRef,
-            pasteKeyRef
+            setYori
         }}>
             {children}
         </DataContext.Provider>

@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import Header from "./Header"
 import SkillTable from "./SkillTable"
+import { getKeyConfigInStorage } from "./../../data/fetchKeyConfig"
 
 // TODO マウスカーソルの見た目
 // TODO Helpボタン
@@ -49,9 +50,11 @@ export default function App(){
     const [height, setHeight] = useState<number>(274);
 
     function handleKeyDown(event: KeyboardEvent){
-        if (event.altKey && event.key === 'a') {
-            setIsVisible((prev) => !prev);
-        }
+        getKeyConfigInStorage("openKey").then((openKey) => {
+            if (event.altKey && event.key === openKey) {
+                setIsVisible((prev) => !prev);
+            }
+        })
     };
 
     function handleWindowResize(){
