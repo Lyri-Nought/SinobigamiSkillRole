@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect, ReactNode, useRef } from 'react';
-import { SkillCoordinate } from "../../data/getAchievementValue"
 import { CharacterData } from '../../data/getCharacterData';
 
 export type DataProviderType = {
@@ -47,11 +46,11 @@ export function toggleSkillTable(setFunc: React.Dispatch<React.SetStateAction<bo
 export function DataProvider({children}: {children: ReactNode}){
     const [gaps, setGaps] = useState<boolean[]>([false, false, false, false, false]);
     const [fields, setFields] = useState<boolean[]>([true, true, true, true, true, true]);
-    const [skills, setSkills] = useState<boolean[][]>(skillTable.slice());
+    const [skills, setSkills] = useState<boolean[][]>(JSON.parse(JSON.stringify(skillTable)));
     const [makaiKogaku, setMakaiKogaku] = useState<boolean>(false);
     const [mokuren, setMokuren] = useState<boolean>(false);
-    const [tatsujin, setTatsujin] = useState<boolean[][]>(skillTable.slice());
-    const [yori, setYori] = useState<boolean[][]>(skillTable.slice());
+    const [tatsujin, setTatsujin] = useState<boolean[][]>(JSON.parse(JSON.stringify(skillTable)));
+    const [yori, setYori] = useState<boolean[][]>(JSON.parse(JSON.stringify(skillTable)));
 
     return (
         <DataContext.Provider value={{
