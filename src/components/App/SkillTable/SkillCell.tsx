@@ -1,13 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { DataContext, DataProviderType } from '../../../providers/App/DataProvider';
-import { SkillCoordinate, getAchievementValue } from "./../../../data/getAchievementValue";
-
-export type BorderStyle = {
-    borderLeft: string;
-    borderRight: string;
-    borderTop: string;
-    borderBottom: string;
-};
+import { DataContext, DataProviderType, toggleSkillTable } from '../../../providers/App/DataProvider';
+import { BorderStyle } from "./SkillTable";
+import { getAchievementValue, skillNameList } from "./../../../data/getAchievementValue";
 
 type Props = {
     skillName: string;
@@ -16,6 +10,7 @@ type Props = {
     getBorderStyle: (row: number, col: number) => BorderStyle;
     getBackgroundColor: (isAble: boolean, isHovered: boolean, isClicked: boolean) => string;
     isDetailedView: boolean;
+    selecting: number;
 }
 
 export default function SkillTable({
@@ -23,38 +18,58 @@ export default function SkillTable({
     rowIndex, colIndex,
     getBorderStyle,
     getBackgroundColor,
-    isDetailedView
+    isDetailedView,
+    selecting
 }: Props){
-    const [mouseSkillHover, setMouseSkillHover] = useState<boolean>(false); // 特技欄のhover処理用State
-    const [mouseSkillClick, setMouseSkillClick] = useState<boolean>(false); // 特技欄のclick処理用State
+    const [isHovered, setIsHovered] = useState<boolean>(false); // 特技欄のhover処理用State
+    const [isClicked, setIsClicked] = useState<boolean>(false); // 特技欄のclick処理用State
     const characterData = useContext<DataProviderType | null>(DataContext);
+
+    // 特技欄の文字色を取得する処理
+    function getSkillTextColor(): string{
+        let isSkillAble: boolean = characterData?.skills[rowIndex][colIndex] || false;
+        let isYoriAble: boolean = characterData?.yori[rowIndex][colIndex] || false;
+        if(isYoriAble){
+            return "#2196f3";
+        }else if(isSkillAble){
+            return "rgba(44, 44, 44, 0.87)";
+        }else{
+            return "";
+        }
+    }
 
     // 特技欄の背景色を取得する処理
     function getSkillBackgroundColor(): string{
-        let isAble: boolean = false;
-        if(characterData){
-            if(characterData.skills[rowIndex][colIndex]){
-                isAble = true;
+        let isAble: boolean = characterData?.skills[rowIndex][colIndex] || false;
+        return getBackgroundColor(isAble, isHovered, isClicked);
+    }
+
+    // 特技欄を左/右クリックしたときの処理
+    function handleMouseClick(mouseButton: 0 | 2){
+        if(!characterData) return;
+        if(selecting === 1){
+            // 妖理設定モードのとき
+            toggleSkillTable(characterData.setYori, rowIndex, colIndex);
+        }else if(selecting === 2){
+            // 達人設定モードのとき
+            toggleSkillTable(characterData.setTatsujin, rowIndex, colIndex);
+        }else{
+            // 特技設定モードのとき
+            if(mouseButton === 0){
+                // 左クリックされたとき
+                handleSkillClick();
+            }else{
+                // 右クリックされたとき
+                //toggleSkillTable(characterData.setSkills, rowIndex, colIndex);
             }
         }
-        return getBackgroundColor(isAble, mouseSkillHover, mouseSkillClick);
     }
 
-    // 特技欄を左クリックしたときの処理
-    function handleMouseLeftClick(){
+    // 特技欄を特技設定モードで左クリックしたときの処理
+    function handleSkillClick(){
         if(characterData){
+            console.log(skillNameList[rowIndex][colIndex])
             // console.log(`2d6<=${getAchievementValue(hoge, fuga)} 【${fugaName}(判定: ${hogeName})】`)
-        }
-    }
-
-    // 特技欄を右クリックしたときの処理
-    function toggleSkillAble(){
-        if(characterData){
-            characterData.setSkills((prev) => {
-                const newArray: boolean[][] = prev.concat();
-                newArray[rowIndex][colIndex] = !prev[rowIndex][colIndex];
-                return newArray;
-            });
         }
     }
 
@@ -64,26 +79,26 @@ export default function SkillTable({
                 Object.assign(
                     {
                         backgroundColor: getSkillBackgroundColor(),
-                        color: (characterData?.skills[rowIndex][colIndex]) ? "rgba(44, 44, 44, 0.87)" : ""
+                        color: getSkillTextColor()
                     },
                     getBorderStyle(rowIndex, colIndex)
                 )
             }
             onContextMenu={(event: React.MouseEvent<HTMLTableCellElement, MouseEvent>) => {
                 event.preventDefault();
-                toggleSkillAble();
+                handleMouseClick(2);
                 return false;
             }}
-            onMouseEnter={() => setMouseSkillHover(true)}
+            onMouseEnter={() => setIsHovered(true)}
             onMouseDown={() => {
-                setMouseSkillClick(true)
+                setIsClicked(true)
             }}
-            onMouseUp={() => setMouseSkillClick(false)}
+            onMouseUp={() => setIsClicked(false)}
             onMouseLeave={() => {
-                setMouseSkillHover(false);
-                setMouseSkillClick(false);
+                setIsHovered(false);
+                setIsClicked(false);
             }}
-            onClick={handleMouseLeftClick}
+            onClick={() => handleMouseClick(0)}
         >
             {skillName}
         </td>

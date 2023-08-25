@@ -6,10 +6,21 @@ import Triangle from './../../svg/Triangle'
 type Props = {
     isDetailedView: boolean;
     setIsDetailedView: React.Dispatch<React.SetStateAction<boolean>>;
+    selecting: number;
+    setSelecting: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function Option({isDetailedView, setIsDetailedView}: Props) {
+export default function Option({isDetailedView, setIsDetailedView, selecting, setSelecting}: Props) {
     const characterData = useContext<DataProviderType | null>(DataContext);
+
+    // selectingを切り替える関数
+    function toggleSelecting(selection: number){
+        if(selecting === selection){
+            setSelecting(0);
+        }else{
+            setSelecting(selection);
+        }
+    }
 
     return (
         <div
@@ -41,29 +52,33 @@ export default function Option({isDetailedView, setIsDetailedView}: Props) {
                     control={
                         <Checkbox
                             color="info"
-                            // checked={false}
-                            onClick={() => {}}
+                            checked={characterData?.mokuren}
+                            onClick={() => {
+                                if(characterData) characterData.setMokuren((prev) => !prev);
+                            }}
                         />
                     }
                     label="木蓮"
                 />
                 <Button
                     className="draggable-disable"
-                    color="primary"
+                    color={(selecting === 1) ? "info" : "primary"}
                     style={{
                         margin: "0",
                         padding: "3px"
                     }}
+                    onClick={() => toggleSelecting(1)}
                 >
                     妖理
                 </Button>
                 <Button
                     className="draggable-disable"
-                    color="primary"
+                    color={(selecting === 2) ? "info" : "primary"}
                     style={{
                         margin: "0",
                         padding: "3px"
                     }}
+                    onClick={() => toggleSelecting(2)}
                 >
                     達人
                 </Button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from "./components/App/App"
+import App from "./components/App/SkillTable/App"
 import { DataProvider } from "./providers/App/DataProvider"
 import { getKeyConfigInStorage } from "./data/fetchKeyConfig"
 import { copyCharacterDataToClipboard } from "./data/getCharacterData"

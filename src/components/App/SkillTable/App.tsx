@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
-import Header from "./Header"
-import Option from "./Option"
-import SkillTable from "./SkillTable/SkillTable"
-import { getKeyConfigInStorage } from "./../../data/fetchKeyConfig"
+import Header from "../Header"
+import Option from "../Option"
+import SkillTable from "./SkillTable"
+import { getKeyConfigInStorage } from "../../../data/fetchKeyConfig"
 
 // TODO Helpボタン
 // TODO 詳細表示
-// TODO 妖理選択
 
 const theme = createTheme({
     palette: {
@@ -41,8 +40,9 @@ const theme = createTheme({
 });
 
 export default function App(){
-    const [isVisible, setIsVisible] = useState<boolean>(false);
-    const [isDetailedView , setIsDetailedView] = useState<boolean>(false);
+    const [isVisible, setIsVisible] = useState<boolean>(false); // 表示中かどうか
+    const [selecting, setSelecting] = useState<number>(0); // 選択中のモード 0が特技設定, 1が妖理設定, 2が達人設定
+    const [isDetailedView , setIsDetailedView] = useState<boolean>(false); // 詳細表示モードがonになっているかどうか
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
     const [width, setWidth] = useState<number>(580.250);
@@ -102,8 +102,17 @@ export default function App(){
                         >
                             <Header setIsVisible={setIsVisible}/>
                             <div>
-                                <Option isDetailedView={isDetailedView} setIsDetailedView={setIsDetailedView}/>
-                                <SkillTable isDetailedView={isDetailedView}/>
+                                <Option
+                                    isDetailedView={isDetailedView}
+                                    setIsDetailedView={setIsDetailedView}
+                                    selecting={selecting}
+                                    setSelecting={setSelecting}
+                                />
+                                <SkillTable
+                                    isDetailedView={isDetailedView}
+                                    selecting={selecting}
+                                    setSelecting={setSelecting}
+                                />
                             </div>
                         </Paper>
                     </Draggable>
