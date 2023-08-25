@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { DataContext, DataProviderType, toggleSkillTable } from '../../../providers/App/DataProvider';
 import { BorderStyle } from "./SkillTable";
 import { roleSkill } from "./../../../data/roleSkill";
+import { SkillCoordinate } from '../../../data/getAchievementValue';
 
 type Props = {
     skillName: string;
@@ -11,6 +12,7 @@ type Props = {
     getBackgroundColor: (isAble: boolean, isHovered: boolean, isClicked: boolean) => string;
     isDetailedView: boolean;
     selecting: number;
+    setTargetSkill: React.Dispatch<React.SetStateAction<SkillCoordinate | null>>;
 }
 
 export default function SkillTable({
@@ -19,7 +21,8 @@ export default function SkillTable({
     getBorderStyle,
     getBackgroundColor,
     isDetailedView,
-    selecting
+    selecting,
+    setTargetSkill
 }: Props){
     const infoColor: string = "#2196f3";
     const [isHovered, setIsHovered] = useState<boolean>(false); // 特技欄のhover処理用State
@@ -59,6 +62,7 @@ export default function SkillTable({
             if(mouseButton === 0){
                 // 左クリックされたとき
                 handleSkillClick();
+                setTargetSkill({row: rowIndex, column: colIndex})
             }else{
                 // 右クリックされたとき
                 toggleSkillTable(characterData.setSkills, rowIndex, colIndex);
@@ -94,7 +98,9 @@ export default function SkillTable({
                     {
                         backgroundColor: getSkillBackgroundColor(),
                         color: getSkillTextColor(),
-                        boxShadow: (characterData?.tatsujin[rowIndex][colIndex]) ? `inset 0 0 0 2px ${infoColor}` : ""
+                        boxShadow: (characterData?.tatsujin[rowIndex][colIndex]) ? `inset 0 0 0 2px ${infoColor}` : "",
+                        paddingLeft: "3px",
+                        paddingRight: "3px"
                     },
                     getBorderStyle(rowIndex, colIndex)
                 )

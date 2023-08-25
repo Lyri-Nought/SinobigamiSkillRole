@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { skillNameList, fieldNameList } from "../../../data/getAchievementValue"
+import { skillNameList, fieldNameList, SkillCoordinate } from "../../../data/getAchievementValue"
 import FieldCell from "./FieldCell"
 import GapCell from "./GapCell"
 import MokurenCell from "./MokurenCell"
@@ -15,10 +15,10 @@ export type BorderStyle = {
 type Props = {
     isDetailedView: boolean;
     selecting: number;
-    setSelecting: React.Dispatch<React.SetStateAction<number>>;
+    setTargetSkill: React.Dispatch<React.SetStateAction<SkillCoordinate | null>>;
 }
 
-export default function SkillTable({isDetailedView, selecting, setSelecting}: Props){
+export default function SkillTable({isDetailedView, selecting, setTargetSkill}: Props){
     const [mouseGapHover, setMouseGapHover] = useState<number | null>(null); // ギャップのhover処理用State
     const [mouseGapClick, setMouseGapClick] = useState<number | null>(null); // ギャップのclick処理用State
 
@@ -104,6 +104,7 @@ export default function SkillTable({isDetailedView, selecting, setSelecting}: Pr
                                 getBackgroundColor={getBackgroundColor}
                                 isDetailedView={isDetailedView}
                                 selecting={selecting}
+                                setTargetSkill={setTargetSkill}
                             />
                         </React.Fragment>
                     )}

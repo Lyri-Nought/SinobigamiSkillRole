@@ -5,8 +5,10 @@ import Draggable from 'react-draggable';
 import Header from "./Header"
 import Option from "./Option"
 import SkillTable from "./SkillTable/SkillTable"
+import DetailedView from "./DetailedView/DetailedView"
 import { getKeyConfigInStorage } from "../../data/fetchKeyConfig"
 import { DataContext, DataProviderType } from '../../providers/App/DataProvider';
+import { SkillCoordinate } from '../../data/getAchievementValue';
 
 // TODO Helpボタン
 // TODO 詳細表示
@@ -45,6 +47,7 @@ export default function App(){
     const [isVisible, setIsVisible] = useState<boolean>(false); // 表示中かどうか
     const [selecting, setSelecting] = useState<number>(0); // 選択中のモード 0が特技設定, 1が妖理設定, 2が達人設定
     const [isDetailedView , setIsDetailedView] = useState<boolean>(false); // 詳細表示モードがonになっているかどうか
+    const [targetSkill , setTargetSkill] = useState<SkillCoordinate | null>(null); // 左クリックでロール用に選択している特技
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
     const [width, setWidth] = useState<number>(580.250);
@@ -118,17 +121,28 @@ export default function App(){
                             elevation={10}
                         >
                             <Header setIsVisible={setIsVisible}/>
-                            <div>
-                                <Option
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <div>
+                                    <Option
+                                        isDetailedView={isDetailedView}
+                                        setIsDetailedView={setIsDetailedView}
+                                        selecting={selecting}
+                                        setSelecting={setSelecting}
+                                    />
+                                    <SkillTable
+                                        isDetailedView={isDetailedView}
+                                        selecting={selecting}
+                                        setTargetSkill={setTargetSkill}
+                                    />
+                                </div>
+                                <DetailedView
                                     isDetailedView={isDetailedView}
-                                    setIsDetailedView={setIsDetailedView}
-                                    selecting={selecting}
-                                    setSelecting={setSelecting}
-                                />
-                                <SkillTable
-                                    isDetailedView={isDetailedView}
-                                    selecting={selecting}
-                                    setSelecting={setSelecting}
+                                    targetSkill={targetSkill}
                                 />
                             </div>
                         </Paper>
