@@ -6,7 +6,6 @@ export type CharacterData = {
     makaiKogaku: boolean; // 魔界工学
     mokuren: boolean; // 木蓮
     tatsujin: SkillCoordinate[]; // 達人
-    tatsujin: SkillCoordinate[]; // 達人
     yori: SkillCoordinate[]; // 妖理
 }
 
@@ -24,7 +23,6 @@ function convertTextCharacterData(text: string): CharacterData | null{
         skills: [],
         makaiKogaku: false,
         mokuren:false,
-        tatsujin: [],
         tatsujin: [],
         yori: []
     };
@@ -57,10 +55,10 @@ function convertTextCharacterData(text: string): CharacterData | null{
                 throw new Error("tatsujinが不正です");
             }
         }
-        // tatsujinのチェックを行う
-        for(const elm of convertedData.tatsujin){
+        // yoriのチェックを行う
+        for(const elm of convertedData.yori){
             if(!((0 <= elm.row && elm.row < 11) && (0 <= elm.column && elm.column < 6))){
-                throw new Error("tatsujinが不正です");
+                throw new Error("yoriが不正です");
             }
         }
         // 必要なデータをコピーする
@@ -69,6 +67,7 @@ function convertTextCharacterData(text: string): CharacterData | null{
         result.makaiKogaku = convertedData.makaiKogaku;
         result.mokuren = convertedData.mokuren;
         result.tatsujin = convertedData.tatsujin;
+        result.yori = convertedData.yori;
         return result;
     }catch(error: any){
         return null;
