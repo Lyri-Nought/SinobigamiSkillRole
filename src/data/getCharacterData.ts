@@ -1,11 +1,11 @@
-import { SkillCoordinate } from "./getAchievementValue"
+import { SkillCoordinate, skillNameList } from "./getAchievementValue"
 
 export type CharacterData = {
     gaps: boolean[]; // ギャップ
     skills: SkillCoordinate[]; // 特技の習得状況
     makaiKogaku: boolean; // 魔界工学
     mokuren: boolean; // 木蓮
-    tatsujin: boolean; // 達人
+    tatsujin: SkillCoordinate[]; // 達人
     yori: SkillCoordinate[]; // 妖理
 }
 
@@ -17,7 +17,7 @@ export function convertTextCharacterData(text: string): CharacterData{
         skills: [],
         makaiKogaku: false,
         mokuren:false,
-        tatsujin: false,
+        tatsujin: [],
         yori: []
     };
     return result;
@@ -57,8 +57,8 @@ function getCharacterData(): CharacterData{
         skills: getLearnedSkills(),
         makaiKogaku: getIsChecked("#skills\\.f"),
         mokuren: getIsChecked("#skills\\.outRow"),
-        tatsujin: getNinpoName("達人"),
-        yori: []
+        tatsujin: getSkillsWithNinpo("達人"),
+        yori: getSkillsWithNinpo("妖理")
     };
     return result;
 }
@@ -94,7 +94,7 @@ function getLearnedSkills(): SkillCoordinate[]{
 }
 
 // 特定の忍法を習得しているかどうかを取得する関数
-function getNinpoName(name: string): boolean{
+/* function getNinpoName(name: string): boolean{
     let result: boolean = false;
     const ninpoList: HTMLTableSectionElement | null =document.querySelector("#ninpou > tbody");
     const trElements: NodeListOf<HTMLTableRowElement> | undefined = ninpoList?.querySelectorAll("tr");
@@ -104,6 +104,52 @@ function getNinpoName(name: string): boolean{
             const ninpoName: string = inputElement.value;
             if(ninpoName === name){
                 result = true;
+            }
+        }
+    }
+    return result;
+} */
+
+//達人(特技名)のような構造になっている忍法を取得し、特技名を切り出す関数
+function getSkillsWithNinpo(ninpoName: string): SkillCoordinate[]{
+    let result: SkillCoordinate[] = new Array;
+    const ninpoList: HTMLTableSectionElement | null =document.querySelector("#ninpou > tbody");
+    const trElements: NodeListOf<HTMLTableRowElement> | undefined = ninpoList?.querySelectorAll("tr");
+    if(trElements?.length){
+        for(let i: number = 0; i < trElements?.length; i++){
+            const inputElement: HTMLInputElement | null = trElements[i].querySelectorAll("input")[2];
+            const inputText: string = inputElement.value; // HTMLから取得した忍法名(フル)
+            const skillCoordinate: SkillCoordinate | null = getContentsInsideParentheses(inputText, ninpoName);
+            if(skillCoordinate){
+                result.push(skillCoordinate);
+            }
+        }
+    }
+    return result;
+}
+
+// 忍法名(特技名)のようになっているものの特技名の部分を切り出す関数
+function getContentsInsideParentheses(value: string, ninpoName: string): SkillCoordinate | null{
+    let result: SkillCoordinate | null = null;
+    const regexPattern = `${ninpoName}\\(([^)]+)\\)`;
+    const regex = new RegExp(regexPattern);
+    const match = value.match(regex);
+    if(match){
+        // 正しい形式になっているかどうか
+        const skillName: string = match[1]; // 括弧内の特技名
+        result = getSkillCoordinateByName(skillName); // 括弧内が特技名になっている場合の行と列
+    }
+    return result;
+}
+
+// 文字列が特技名の場合、行と列を取得する関数
+function getSkillCoordinateByName(value: string): SkillCoordinate | null{
+    let result: SkillCoordinate | null = null;
+    for(let row: number = 0; row < skillNameList.length; row++){
+        for(let column: number = 0; column < skillNameList[row].length; column++){
+            if(skillNameList[row][column] === value){
+                const skillCoordinate: SkillCoordinate = {row, column};
+                result = skillCoordinate;
             }
         }
     }
