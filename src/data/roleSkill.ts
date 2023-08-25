@@ -88,3 +88,20 @@ function getMinAchievementValue(
     }
     return result;
 }
+
+// 指定特技でロールを行う関数
+export function roleDesignatedSkill(
+    learnedSkill: SkillCoordinate,
+    targetSkill: SkillCoordinate,
+    gaps: boolean[],
+    makaiKogaku: boolean,
+    mokuren: boolean, 
+    yoriTable: boolean[][],
+){
+    const yori: boolean = yoriTable[learnedSkill.row][learnedSkill.column];
+    const achievementValue: number = getAchievementValue(learnedSkill, targetSkill, gaps, makaiKogaku, mokuren, yori); // 達成値
+    const learnedSkillName: string = skillNameList[learnedSkill.row][learnedSkill.column]; // 代用する特技名
+    const targetSkillName: string = skillNameList[targetSkill.row][targetSkill.column]; // 指定特技名
+    const roleText = `2d6>=${achievementValue} 【${targetSkillName}(判定: ${learnedSkillName})】`;
+    sendCcfoliaMessage(roleText); // ココフォリア上でロールを行う
+}
