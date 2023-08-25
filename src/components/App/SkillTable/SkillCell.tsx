@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { DataContext, DataProviderType, skillTable } from '../../../providers/App/DataProvider';
+import { DataContext, DataProviderType, toggleSkillTable, skillTable } from '../../../providers/App/DataProvider';
 import { BorderStyle } from "./SkillTable";
 import { getAchievementValue, skillNameList } from "./../../../data/getAchievementValue";
 
@@ -48,9 +48,12 @@ export default function SkillTable({
     function handleMouseClick(mouseButton: 0 | 2){
         if(!characterData) return;
         console.log(`妖理: ${characterData.yori[rowIndex][colIndex]}/n達人: ${characterData.tatsujin[rowIndex][colIndex]}\n特技: ${characterData.skills[rowIndex][colIndex]}\n${skillTable[rowIndex][colIndex]}`)
-        if((selecting === 1) || (selecting === 2)){
-            // 妖理設定モード, 達人設定モードのとき
-            characterData.toggleSkillTable(selecting, rowIndex, colIndex);
+        if(selecting === 1){
+            // 妖理設定モードのとき
+            toggleSkillTable(characterData.setYori, rowIndex, colIndex);
+        }else if(selecting === 2){
+            // 達人設定モードのとき
+            toggleSkillTable(characterData.setTatsujin, rowIndex, colIndex);
         }else{
             // 特技設定モードのとき
             if(mouseButton === 0){
@@ -58,7 +61,7 @@ export default function SkillTable({
                 handleSkillClick();
             }else{
                 // 右クリックされたとき
-                characterData.toggleSkillTable(0, rowIndex, colIndex);
+                toggleSkillTable(characterData.setSkills, rowIndex, colIndex);
             }
         }
     }

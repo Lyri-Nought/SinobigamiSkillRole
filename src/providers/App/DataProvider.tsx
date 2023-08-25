@@ -17,7 +17,6 @@ export type DataProviderType = {
     setTatsujin: React.Dispatch<React.SetStateAction<boolean[][]>>;
     yori: boolean[][];
     setYori: React.Dispatch<React.SetStateAction<boolean[][]>>;
-    toggleSkillTable: (selecting: number, rowIndex: number, colIndex: number) => void;
 }
 
 export const DataContext = createContext<DataProviderType | null>(null)
@@ -36,6 +35,15 @@ export const skillTable: boolean[][] = [
     [false, false, false, false, false, false]
 ]
 
+// boolean型の二次元配列をトグルで切り替える関数
+export function toggleSkillTable(setFunc: React.Dispatch<React.SetStateAction<boolean[][]>>, rowIndex: number, colIndex: number): void{
+    setFunc((prev) => {
+        const newArray: boolean[][] = prev.concat();
+        newArray[rowIndex][colIndex] = !prev[rowIndex][colIndex];
+        return newArray;
+    });
+}
+
 export function DataProvider({children}: {children: ReactNode}){
     const [gaps, setGaps] = useState<boolean[]>([false, false, false, false, false]);
     const [fields, setFields] = useState<boolean[]>([true, true, true, true, true, true]);
@@ -45,34 +53,6 @@ export function DataProvider({children}: {children: ReactNode}){
     const [tatsujin, setTatsujin] = useState<boolean[][]>(skillTable.slice());
     const [yori, setYori] = useState<boolean[][]>(skillTable.slice());
 
-    // boolean型の二次元配列をトグルで切り替える関数
-    function toggleSkillTable(selecting: number, rowIndex: number, colIndex: number): void{
-        switch(selecting){
-            case 2:
-                setTatsujin((prev) => {
-                    const newArray: boolean[][] = prev.slice();
-                    newArray[rowIndex][colIndex] = !prev[rowIndex][colIndex];
-                    return newArray;
-                });
-                break;
-            case 1:
-                setYori((prev) => {
-                    const newArray: boolean[][] = prev.slice();
-                    newArray[rowIndex][colIndex] = !prev[rowIndex][colIndex];
-                    return newArray;
-                });
-                break;
-            case 0:
-            default:
-                setSkills((prev) => {
-                    const newArray: boolean[][] = prev.slice();
-                    newArray[rowIndex][colIndex] = !prev[rowIndex][colIndex];
-                    return newArray;
-                });
-                break; 
-        }
-    }
-
     return (
         <DataContext.Provider value={{
             gaps, setGaps,
@@ -81,8 +61,7 @@ export function DataProvider({children}: {children: ReactNode}){
             makaiKogaku, setMakaiKogaku,
             mokuren, setMokuren,
             tatsujin, setTatsujin,
-            yori, setYori,
-            toggleSkillTable
+            yori, setYori
         }}>
             {children}
         </DataContext.Provider>
