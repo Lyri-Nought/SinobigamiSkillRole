@@ -36,3 +36,12 @@ export function clickSubmitButton(){ // 送信ボタンを押下して送信す�
     const submitButton: HTMLButtonElement = document.querySelector(submitFormQuery) as HTMLButtonElement
     clickTheButton(submitButton)
 }
+
+// ダブルクリックでココフォリアのメッセージを送信する関数
+export function sendCcfoliaMessage(text: string){
+    const isChangedMessage: boolean = changeMessage(text); // メッセージを変更する
+    if(!isChangedMessage){
+        // メッセージに変更なければ送信する
+        clickSubmitButton();
+    }
+}
