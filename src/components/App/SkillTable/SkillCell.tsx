@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { DataContext, DataProviderType, toggleSkillTable, skillTable } from '../../../providers/App/DataProvider';
 import { BorderStyle } from "./SkillTable";
-import { getAchievementValue, skillNameList } from "./../../../data/getAchievementValue";
+import { skillNameList } from "./../../../data/getAchievementValue";
+import { roleSkill } from "./../../../data/roleSkill";
 
 type Props = {
     skillName: string;
@@ -48,7 +49,6 @@ export default function SkillTable({
     // 特技欄を左/右クリックしたときの処理
     function handleMouseClick(mouseButton: 0 | 2){
         if(!characterData) return;
-        console.log(`妖理: ${characterData.yori[rowIndex][colIndex]}/n達人: ${characterData.tatsujin[rowIndex][colIndex]}\n特技: ${characterData.skills[rowIndex][colIndex]}\n${skillTable[rowIndex][colIndex]}`)
         if(selecting === 1){
             // 妖理設定モードのとき
             toggleSkillTable(characterData.setYori, rowIndex, colIndex);
@@ -70,8 +70,21 @@ export default function SkillTable({
     // 特技欄を特技設定モードで左クリックしたときの処理
     function handleSkillClick(){
         if(characterData){
-            console.log(skillNameList[rowIndex][colIndex])
-            // console.log(`2d6<=${getAchievementValue(hoge, fuga)} 【${fugaName}(判定: ${hogeName})】`)
+            if(isDetailedView){
+
+            }else{
+                // ココフォリア上でダイスロールを行う
+                roleSkill(
+                    characterData.skills,
+                    {row: rowIndex, column: colIndex},
+                    characterData.gaps,
+                    characterData.fields,
+                    characterData.makaiKogaku,
+                    characterData.mokuren,
+                    characterData.yori,
+                    characterData.tatsujin
+                );
+            }
         }
     }
 
