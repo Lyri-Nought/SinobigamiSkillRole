@@ -11,9 +11,11 @@ export type CharacterData = {
 
 // クリップボードからキャラシデータを取得する関数
 export function getCharacterDataFromClipboard(): CharacterData | null{
-    const clipText: string = readClipboard();
-    const characterData: CharacterData | null = convertTextCharacterData(clipText);
-    return characterData;
+    readClipboard().then((clipText) => {
+        const characterData: CharacterData | null = convertTextCharacterData(clipText);
+        return characterData;
+    });
+    return null;
 }
 
 // クリップボードにコピーしたテキスト形式のキャラシデータをオブジェクトに変換する関数
@@ -75,11 +77,8 @@ function convertTextCharacterData(text: string): CharacterData | null{
 }
 
 // クリップボードからテキストを取得する関数
-function readClipboard(): string{
-navigator.clipboard.readText().then((clipText) => {
-    return clipText;
-});
-return "";
+function readClipboard(): Promise<string>{
+    return navigator.clipboard.readText();
 }
 
 // キャラシのデータをクリップボードにコピーする関数

@@ -1,11 +1,15 @@
-getCharacterDataFromClipboard() 
+document.addEventListener("keydown", getCharacterDataFromClipboard)
 
 // クリップボードからキャラシデータを取得する関数
 function getCharacterDataFromClipboard() {
-    //var clipText = readClipboard();
-    var clipText = `{"gaps":[false,false,false,false,true],"skills":[{"row":0,"column":4},{"row":0,"column":5},{"row":1,"column":1},{"row":4,"column":3},{"row":8,"column":1},{"row":10,"column":5}],"makaiKogaku":false,"mokuren":false,"tatsujin":false,"yori":[]}`
-    var characterData = convertTextCharacterData(clipText);
-    return characterData;
+    readClipboard().then((clipText) => {
+        console.log(clipText)
+        var clipText2 = `{"gaps":[true,true,false,false,false],"skills":[{"row":0,"column":5},{"row":2,"column":1},{"row":3,"column":4},{"row":5,"column":1},{"row":8,"column":4},{"row":9,"column":1}],"makaiKogaku":true,"mokuren":true,"tatsujin":[{"row":6,"column":1},{"row":10,"column":4}],"yori":[{"row":9,"column":1},{"row":9,"column":1}]}`
+        console.log(clipText === clipText2)
+        return;
+        var characterData = convertTextCharacterData(clipText);
+        return characterData;
+    });
 }
 // クリップボードにコピーしたテキスト形式のキャラシデータをオブジェクトに変換する関数
 function convertTextCharacterData(text) {
@@ -20,7 +24,7 @@ function convertTextCharacterData(text) {
     try {
         // テキストをキャラシデータのオブジェクトに変換する
         var convertedData = JSON.parse(text);
-        console.log("obj", convertedData)
+        //console.log("obj", convertedData)
         // gapsのチェックを行う
         for (var i = 0; i < 5; i++) {
             if (typeof convertedData.gaps[i] !== "boolean") {
@@ -44,14 +48,16 @@ function convertTextCharacterData(text) {
         }
         // tatsujinのチェックを行う
         for (var _i = 0, _a = convertedData.tatsujin; _i < _a.length; _i++) {
-            if (typeof convertedData.tatsujin[i] !== "boolean") {
+            var elm = _a[_i];
+            if (!((0 <= elm.row && elm.row < 11) && (0 <= elm.column && elm.column < 6))) {
                 throw new Error("tatsujinが不正です");
             }
         }
         // yoriのチェックを行う
         for (var _i = 0, _a = convertedData.yori; _i < _a.length; _i++) {
-            if (typeof convertedData.tatsujin[i] !== "boolean") {
-                throw new Error("tatsujinが不正です");
+            var elm = _a[_i];
+            if (!((0 <= elm.row && elm.row < 11) && (0 <= elm.column && elm.column < 6))) {
+                throw new Error("yoriが不正です");
             }
         }
         // 必要なデータをコピーする
@@ -64,16 +70,11 @@ function convertTextCharacterData(text) {
     }
     catch (error) {
         throw new Error(error)
-        return null;
     }
 }
 // クリップボードからテキストを取得する関数
-function readClipboard() {
-    navigator.clipboard.readText().then(function (clipText) {
-        console.log(clipText)
-        return clipText;
-    });
-    return "";
+async function readClipboard() {
+    return navigator.clipboard.readText()
 }
 // キャラシのデータをクリップボードにコピーする関数
 function copyCharacterDataToClipboard() {
@@ -165,5 +166,3 @@ function getIsChecked(query) {
         result = true;
     return result;
 }
-
-
