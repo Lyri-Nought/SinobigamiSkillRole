@@ -16,9 +16,10 @@ type Props = {
     isDetailedView: boolean;
     selecting: number;
     setTargetSkill: React.Dispatch<React.SetStateAction<SkillCoordinate | null>>;
+    skillTableRef: React.RefObject<HTMLTableElement>;
 }
 
-export default function SkillTable({isDetailedView, selecting, setTargetSkill}: Props){
+export default function SkillTable({isDetailedView, selecting, setTargetSkill, skillTableRef}: Props){
     const [mouseGapHover, setMouseGapHover] = useState<number | null>(null); // ギャップのhover処理用State
     const [mouseGapClick, setMouseGapClick] = useState<number | null>(null); // ギャップのclick処理用State
 
@@ -70,6 +71,7 @@ export default function SkillTable({isDetailedView, selecting, setTargetSkill}: 
 
     return (
         <table
+            ref={skillTableRef}
             className="draggable-disable"
             style={{
                 borderCollapse: "collapse",

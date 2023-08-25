@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
@@ -11,7 +11,6 @@ import { DataContext, DataProviderType } from '../../providers/App/DataProvider'
 import { SkillCoordinate } from '../../data/getAchievementValue';
 
 // TODO Helpボタン
-// TODO 詳細表示
 
 const theme = createTheme({
     palette: {
@@ -52,6 +51,7 @@ export default function App(){
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
     const [width, setWidth] = useState<number>(580.250);
     const [height, setHeight] = useState<number>(425);
+    const skillTableRef = useRef<HTMLTableElement>(null);
 
     // キーボード入力を受け取った際の処理
     function handleKeyDown(event: KeyboardEvent){
@@ -135,6 +135,7 @@ export default function App(){
                                         setSelecting={setSelecting}
                                     />
                                     <SkillTable
+                                        skillTableRef={skillTableRef}
                                         isDetailedView={isDetailedView}
                                         selecting={selecting}
                                         setTargetSkill={setTargetSkill}
