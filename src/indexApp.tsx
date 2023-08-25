@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from "./components/App/SkillTable/App"
+import App from "./components/App/App"
 import { DataProvider } from "./providers/App/DataProvider"
 import { getKeyConfigInStorage } from "./data/fetchKeyConfig"
 import { copyCharacterDataToClipboard } from "./data/getCharacterData"
@@ -26,19 +26,20 @@ async function renderApp(portal: HTMLDivElement): Promise<void>{ // ポータル
     );
 }
 
+// シノビガミキャラクター登録サイトでコピーキーを押した際の処理
+function copyWithKey(event: KeyboardEvent){
+    getKeyConfigInStorage("copyKey").then((response: string) => {
+        const copyKey: string = response;
+        if(event.altKey && event.key === copyKey){
+            copyCharacterDataToClipboard();
+        }
+    })
+}
 
 // 実際の処理
 if(location.hostname + location.pathname === "character-sheets.appspot.com/shinobigami/edit.html"){
     // シノビガミキャラクター登録サイト上の処理
-    getKeyConfigInStorage("copyKey").then((response: string) => {
-        const copyKey: string = response;
-        document.addEventListener("keydown", copyWithKey);
-        function copyWithKey(event: KeyboardEvent){
-            if(event.altKey && event.key === copyKey){
-                copyCharacterDataToClipboard();
-            }
-        }
-    })
+    document.addEventListener("keydown", copyWithKey);
 }else{
     // ココフォリア上の処理
     window.onload = async function(){

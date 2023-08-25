@@ -1,4 +1,5 @@
 import { SkillCoordinate, skillNameList } from "./getAchievementValue"
+import { skillTable } from "../providers/App/DataProvider";
 
 export type CharacterData = {
     gaps: boolean[]; // ギャップ
@@ -10,12 +11,10 @@ export type CharacterData = {
 }
 
 // クリップボードからキャラシデータを取得する関数
-export function getCharacterDataFromClipboard(): CharacterData | null{
-    readClipboard().then((clipText) => {
-        const characterData: CharacterData | null = convertTextCharacterData(clipText);
-        return characterData;
-    });
-    return null;
+export async function getCharacterDataFromClipboard(): Promise<CharacterData | null>{
+    const clipText: string = await readClipboard();
+    const characterData: CharacterData | null = convertTextCharacterData(clipText);
+    return characterData;
 }
 
 // クリップボードにコピーしたテキスト形式のキャラシデータをオブジェクトに変換する関数
@@ -32,7 +31,7 @@ function convertTextCharacterData(text: string): CharacterData | null{
         // テキストをキャラシデータのオブジェクトに変換する
         const convertedData: CharacterData = JSON.parse(text);
         // gapsのチェックを行う
-        for(let i: number = 0; i < 6; i++){
+        for(let i: number = 0; i < 5; i++){
             if(typeof convertedData.gaps[i] !== "boolean"){
                 throw new Error("gapsが不正です");
             }
@@ -220,4 +219,27 @@ let result: boolean = false;
 const inputElement: HTMLInputElement | null = document.querySelector(query);
 if(inputElement?.checked) result = true;
 return result;
+}
+
+// 論理型の二次元配列を、特技配置のオブジェクトに変換する関数
+export function convertSkillCoordinate(skillTable: boolean[][]): SkillCoordinate[]{
+    let result: SkillCoordinate[] = new Array;
+    for(let row: number = 0; row < 11; row++){
+        for(let column: number = 0; column < 6; column++){
+            if(skillTable[row][column]){
+                const skill: SkillCoordinate = {row, column};
+                result.push(skill);
+            }
+        }
+    }
+    return result;
+}
+
+// 特技配置のオブジェクトを、論理型の二次元配列に変換する関数
+export function convertSkillTable(skillCoordinates: SkillCoordinate[]): boolean[][]{
+    let result: boolean[][] = JSON.parse(JSON.stringify(skillTable));
+    for(const elm of skillCoordinates){
+        result[elm.row][elm.column] = true;
+    }
+    return result;
 }

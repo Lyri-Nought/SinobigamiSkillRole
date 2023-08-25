@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
-import Header from "../Header"
-import Option from "../Option"
-import SkillTable from "./SkillTable"
-import { getKeyConfigInStorage } from "../../../data/fetchKeyConfig"
+import Header from "./Header"
+import Option from "./Option"
+import SkillTable from "./SkillTable/SkillTable"
+import { getKeyConfigInStorage } from "../../data/fetchKeyConfig"
+import { DataContext, DataProviderType } from '../../providers/App/DataProvider';
 
 // TODO Helpボタン
 // TODO 詳細表示
@@ -40,6 +41,7 @@ const theme = createTheme({
 });
 
 export default function App(){
+    const characterData = useContext<DataProviderType | null>(DataContext);
     const [isVisible, setIsVisible] = useState<boolean>(false); // 表示中かどうか
     const [selecting, setSelecting] = useState<number>(0); // 選択中のモード 0が特技設定, 1が妖理設定, 2が達人設定
     const [isDetailedView , setIsDetailedView] = useState<boolean>(false); // 詳細表示モードがonになっているかどうか
@@ -48,12 +50,27 @@ export default function App(){
     const [width, setWidth] = useState<number>(580.250);
     const [height, setHeight] = useState<number>(425);
 
+    // キーボード入力を受け取った際の処理
     function handleKeyDown(event: KeyboardEvent){
+        // 開く/閉じるキーが押された際の処理
         getKeyConfigInStorage("openKey").then((openKey) => {
             if (event.altKey && event.key === openKey) {
                 setIsVisible((prev) => !prev);
+            }else{
+                // キャラシ貼り付けキーが押された際の処理
+                getKeyConfigInStorage("pasteKey").then((pasteKey) => {
+                    if (event.altKey && event.key === pasteKey) {
+                        if(characterData){
+                            characterData.readDataFromClipBoard().then((readSuccess: boolean) => {
+                                if(!readSuccess){
+                                    window.alert("クリップボードからの特技データ読み込みに失敗しました");
+                                }
+                            });
+                        }
+                    }
+                })
             }
-        })
+        });
     };
 
     function handleWindowResize(){

@@ -1,5 +1,6 @@
-import { SkillCoordinate, getAchievementValue, skillNameList } from "./getAchievementValue"
-import { sendCcfoliaMessage } from "./sendCcfoliaMessage"
+import { SkillCoordinate, getAchievementValue, skillNameList } from "./getAchievementValue";
+import { convertSkillCoordinate } from "./getCharacterData";
+import { sendCcfoliaMessage } from "./sendCcfoliaMessage";
 
 // 最適な特技でロールを行う関数
 export function roleSkill(
@@ -83,20 +84,6 @@ function getMinAchievementValue(
         }
         if(minValue !== null && minSkill !== null){
             result = [minValue, minSkill];
-        }
-    }
-    return result;
-}
-
-// 論理型の二次元配列を、特技配置のオブジェクトに変換する関数
-function convertSkillCoordinate(skillTable: boolean[][]): SkillCoordinate[]{
-    let result: SkillCoordinate[] = new Array;
-    for(let row: number = 0; row < 11; row++){
-        for(let column: number = 0; column < 6; column++){
-            if(skillTable[row][column]){
-                const skill: SkillCoordinate = {row, column};
-                result.push(skill);
-            }
         }
     }
     return result;

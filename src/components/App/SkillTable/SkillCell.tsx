@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { DataContext, DataProviderType, toggleSkillTable, skillTable } from '../../../providers/App/DataProvider';
+import { DataContext, DataProviderType, toggleSkillTable } from '../../../providers/App/DataProvider';
 import { BorderStyle } from "./SkillTable";
-import { skillNameList } from "./../../../data/getAchievementValue";
 import { roleSkill } from "./../../../data/roleSkill";
 
 type Props = {

@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect, ReactNode, useRef } from 'react';
-import { CharacterData } from '../../data/getCharacterData';
+import React, { createContext, useState, ReactNode } from 'react';
+import { getCharacterDataFromClipboard, CharacterData, convertSkillCoordinate, convertSkillTable } from '../../data/getCharacterData';
 
 export type DataProviderType = {
     gaps: boolean[];
@@ -16,6 +16,7 @@ export type DataProviderType = {
     setTatsujin: React.Dispatch<React.SetStateAction<boolean[][]>>;
     yori: boolean[][];
     setYori: React.Dispatch<React.SetStateAction<boolean[][]>>;
+    readDataFromClipBoard: () => Promise<boolean>;
 }
 
 export const DataContext = createContext<DataProviderType | null>(null)
@@ -52,6 +53,28 @@ export function DataProvider({children}: {children: ReactNode}){
     const [tatsujin, setTatsujin] = useState<boolean[][]>(JSON.parse(JSON.stringify(skillTable)));
     const [yori, setYori] = useState<boolean[][]>(JSON.parse(JSON.stringify(skillTable)));
 
+    // クリップボードから読み込んだCharacterDataをStateに取り込む関数
+    async function readDataFromClipBoard(): Promise<boolean>{
+        const characterData: CharacterData | null = await getCharacterDataFromClipboard();
+        if(characterData){
+            readConvertedData(characterData);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    // CharacterData型をStateに取り込む関数
+    function readConvertedData(data: CharacterData){
+        setGaps(data.gaps);
+        setFields([true, true, true, true, true, true]);
+        setSkills(convertSkillTable(data.skills));
+        setMakaiKogaku(data.makaiKogaku);
+        setMokuren(data.mokuren);
+        setTatsujin(convertSkillTable(data.tatsujin));
+        setYori(convertSkillTable(data.yori));
+    }
+
     return (
         <DataContext.Provider value={{
             gaps, setGaps,
@@ -60,7 +83,8 @@ export function DataProvider({children}: {children: ReactNode}){
             makaiKogaku, setMakaiKogaku,
             mokuren, setMokuren,
             tatsujin, setTatsujin,
-            yori, setYori
+            yori, setYori,
+            readDataFromClipBoard
         }}>
             {children}
         </DataContext.Provider>
