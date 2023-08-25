@@ -1,13 +1,3 @@
-const gaps: boolean[] = [false, false, false, false, false]; // ギャップ(0番目が器術右)
-
-let makaiKogaku: boolean = false; // 魔界工学(左右を繋げる)
-
-let mokuren: boolean = false; // 木蓮(上下を繋げる)
-
-let tatsujin: SkillCoordinate[] = []; // 達人(生命力が失われた分野でも判定できる)
-
-let yori: SkillCoordinate[] = []; // 妖理
-
 export const skillNameList: string[][] = [
     ["絡繰術", "騎乗術", "生存術", "医術", "兵糧術", "異形化"],
     ["火術", "砲術", "潜伏術", "毒術", "鳥獣術", "召喚術"],
@@ -30,7 +20,7 @@ export type SkillCoordinate = {
 }
 
 // 達成値を求める関数
-export function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCoordinate): number{
+export function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCoordinate, gaps: boolean[], makaiKogaku: boolean, mokuren: boolean, yori: boolean): number{
     const initialValue = 5;
     let result: number = 0;
     function getColDistance(): number{
@@ -88,21 +78,29 @@ export function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: 
         return rowDistance;
     }
     result = initialValue + getRowDistance() + getColDistance();
-    for(const elm of yori){
-        if((elm.row === learnedSkill.row) && (elm.column === learnedSkill.column)){
-            if((elm.row !== targetSkill.row) && (elm.column !== targetSkill.column)){
-                // 妖理時、指定特技と判定特技が斜めの関係なら達成値-1
-                result -= 1;
-            }
+    if(yori){
+        if((learnedSkill.row !== targetSkill.row) && (learnedSkill.column !== targetSkill.column)){
+            // 妖理時、指定特技と判定特技が斜めの関係なら達成値-1
+            result -= 1;
         }
     }
     return result;
 }
 
 
-const hoge: SkillCoordinate = {row: 1, column: 0}
-const fuga: SkillCoordinate = {row: 0, column: 5}
-const hogeName: string = skillNameList[hoge.row][hoge.column];
-const fugaName: string = skillNameList[fuga.row][fuga.column];
-makaiKogaku = true
-console.log(`2d6<=${getAchievementValue(hoge, fuga)} 【${fugaName}(判定: ${hogeName})】`)
+// const gaps: boolean[] = [false, false, false, false, false]; // ギャップ(0番目が器術右)
+
+// let makaiKogaku: boolean = false; // 魔界工学(左右を繋げる)
+
+// let mokuren: boolean = false; // 木蓮(上下を繋げる)
+
+// let tatsujin: SkillCoordinate[] = []; // 達人(生命力が失われた分野でも判定できる)
+
+// let yori: SkillCoordinate[] = []; // 妖理
+
+// const hoge: SkillCoordinate = {row: 1, column: 0}
+// const fuga: SkillCoordinate = {row: 0, column: 5}
+// const hogeName: string = skillNameList[hoge.row][hoge.column];
+// const fugaName: string = skillNameList[fuga.row][fuga.column];
+// makaiKogaku = true
+// console.log(`2d6<=${getAchievementValue(hoge, fuga)} 【${fugaName}(判定: ${hogeName})】`)
