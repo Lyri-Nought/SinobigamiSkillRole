@@ -21,6 +21,7 @@ export default function SkillTable({
     isDetailedView,
     selecting
 }: Props){
+    const infoColor: string = "#2196f3";
     const [isHovered, setIsHovered] = useState<boolean>(false); // 特技欄のhover処理用State
     const [isClicked, setIsClicked] = useState<boolean>(false); // 特技欄のclick処理用State
     const characterData = useContext<DataProviderType | null>(DataContext);
@@ -30,7 +31,7 @@ export default function SkillTable({
         let isSkillAble: boolean = characterData?.skills[rowIndex][colIndex] || false;
         let isYoriAble: boolean = characterData?.yori[rowIndex][colIndex] || false;
         if(isYoriAble){
-            return "#2196f3";
+            return infoColor;
         }else if(isSkillAble){
             return "rgba(44, 44, 44, 0.87)";
         }else{
@@ -80,7 +81,8 @@ export default function SkillTable({
                 Object.assign(
                     {
                         backgroundColor: getSkillBackgroundColor(),
-                        color: getSkillTextColor()
+                        color: getSkillTextColor(),
+                        boxShadow: (characterData?.tatsujin[rowIndex][colIndex]) ? `inset 0 0 0 2px ${infoColor}` : ""
                     },
                     getBorderStyle(rowIndex, colIndex)
                 )
