@@ -34,7 +34,7 @@ export function roleSkill(
 }
 
 // 指定特技の達成値が一番低い特技の達成値を取得する関数
-function getMinAchievementValue(
+export function getMinAchievementValue(
     skillTable: boolean[][],
     targetSkill: SkillCoordinate,
     gaps: boolean[],
