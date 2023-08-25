@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { skillNameList, fieldNameList } from "../../../data/getAchievementValue"
-import { FormControlLabel, Checkbox } from '@mui/material';
-import { DataContext, DataProviderType } from '../../../providers/App/DataProvider';
-import GapCell from "./GapCell"
 import FieldCell from "./FieldCell"
+import GapCell from "./GapCell"
+import SkillCell from "./SkillCell"
 
 export type BorderStyle = {
     borderLeft: string;
@@ -12,10 +11,13 @@ export type BorderStyle = {
     borderBottom: string;
 };
 
-export default function SkillTable(){
+type Props = {
+    isDetailedView: boolean;
+}
+
+export default function SkillTable({isDetailedView}: Props){
     const [mouseGapHover, setMouseGapHover] = useState<number | null>(null); // ギャップのhover処理用State
     const [mouseGapClick, setMouseGapClick] = useState<number | null>(null); // ギャップのclick処理用State
-    const characterData = useContext<DataProviderType | null>(DataContext);
 
     // テーブルの外側線を無くしたborderのスタイルを取得する関数
     function getBorderStyle(row: number, col: number): BorderStyle{
@@ -91,7 +93,14 @@ export default function SkillTable(){
                                 getBorderStyle={getBorderStyle}
                                 getBackgroundColor={getBackgroundColor}
                             />
-                            <td style={getBorderStyle(rowIndex, colIndex)}>{skillName}</td>
+                            <SkillCell
+                                skillName={skillName}
+                                rowIndex={rowIndex}
+                                colIndex={colIndex}
+                                getBorderStyle={getBorderStyle}
+                                getBackgroundColor={getBackgroundColor}
+                                isDetailedView={isDetailedView}
+                            />
                         </React.Fragment>
                     )}
                 </tr>

@@ -42,6 +42,7 @@ const theme = createTheme({
 
 export default function App(){
     const [isVisible, setIsVisible] = useState<boolean>(false);
+    const [isDetailedView , setIsDetailedView] = useState<boolean>(false);
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
     const [width, setWidth] = useState<number>(580.250);
@@ -101,8 +102,8 @@ export default function App(){
                         >
                             <Header setIsVisible={setIsVisible}/>
                             <div>
-                                <Option/>
-                                <SkillTable/>
+                                <Option isDetailedView={isDetailedView} setIsDetailedView={setIsDetailedView}/>
+                                <SkillTable isDetailedView={isDetailedView}/>
                             </div>
                         </Paper>
                     </Draggable>

@@ -30,7 +30,7 @@ export type SkillCoordinate = {
 }
 
 // 達成値を求める関数
-function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCoordinate): number{
+export function getAchievementValue(learnedSkill: SkillCoordinate, targetSkill: SkillCoordinate): number{
     const initialValue = 5;
     let result: number = 0;
     function getColDistance(): number{

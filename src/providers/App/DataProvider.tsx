@@ -7,28 +7,42 @@ export type DataProviderType = {
     setGaps: React.Dispatch<React.SetStateAction<boolean[]>>;
     fields: boolean[];
     setFields: React.Dispatch<React.SetStateAction<boolean[]>>;
-    skills: SkillCoordinate[];
-    setSkills: React.Dispatch<React.SetStateAction<SkillCoordinate[]>>;
+    skills: boolean[][];
+    setSkills: React.Dispatch<React.SetStateAction<boolean[][]>>;
     makaiKogaku: boolean;
     setMakaiKogaku: React.Dispatch<React.SetStateAction<boolean>>;
     mokuren: boolean;
     setMokuren: React.Dispatch<React.SetStateAction<boolean>>;
-    tatsujin: SkillCoordinate[];
-    setTatsujin: React.Dispatch<React.SetStateAction<SkillCoordinate[]>>;
-    yori: SkillCoordinate[];
-    setYori: React.Dispatch<React.SetStateAction<SkillCoordinate[]>>;
+    tatsujin: boolean[][];
+    setTatsujin: React.Dispatch<React.SetStateAction<boolean[][]>>;
+    yori: boolean[][];
+    setYori: React.Dispatch<React.SetStateAction<boolean[][]>>;
 }
 
 export const DataContext = createContext<DataProviderType | null>(null)
 
+const skillTable: boolean[][] = [
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false],
+    [false, false, false, false, false, false]
+]
+
 export function DataProvider({children}: {children: ReactNode}){
     const [gaps, setGaps] = useState<boolean[]>([false, false, false, false, false]);
     const [fields, setFields] = useState<boolean[]>([true, true, true, true, true, true]);
-    const [skills, setSkills] = useState<SkillCoordinate[]>([]);
+    const [skills, setSkills] = useState<boolean[][]>(skillTable.concat());
     const [makaiKogaku, setMakaiKogaku] = useState<boolean>(false);
     const [mokuren, setMokuren] = useState<boolean>(false);
-    const [tatsujin, setTatsujin] = useState<SkillCoordinate[]>([]);
-    const [yori, setYori] = useState<SkillCoordinate[]>([]);
+    const [tatsujin, setTatsujin] = useState<boolean[][]>(skillTable.concat());
+    const [yori, setYori] = useState<boolean[][]>(skillTable.concat());
 
     return (
         <DataContext.Provider value={{

@@ -3,7 +3,12 @@ import { FormControlLabel, Button, IconButton, Checkbox } from '@mui/material';
 import { DataContext, DataProviderType } from '../../providers/App/DataProvider';
 import Triangle from './../../svg/Triangle'
 
-export default function Option() {
+type Props = {
+    isDetailedView: boolean;
+    setIsDetailedView: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Option({isDetailedView, setIsDetailedView}: Props) {
     const characterData = useContext<DataProviderType | null>(DataContext);
 
     return (
@@ -70,9 +75,10 @@ export default function Option() {
                     color="primary"
                     style={{
                         margin: "0 -3px 0 4px",
-                        padding: "3px"
+                        padding: "3px",
+                        transform: (isDetailedView) ? "rotate(90deg)" : "rotate(-90deg)"
                     }}
-                    onClick={() => {}}
+                    onClick={() => setIsDetailedView((prev) => !prev)}
                 >
                     <Triangle/>
                 </IconButton>
