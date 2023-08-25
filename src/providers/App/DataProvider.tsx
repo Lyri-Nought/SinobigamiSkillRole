@@ -22,7 +22,7 @@ export type DataProviderType = {
 
 export const DataContext = createContext<DataProviderType | null>(null)
 
-const skillTable: boolean[][] = [
+export const skillTable: boolean[][] = [
     [false, false, false, false, false, false],
     [false, false, false, false, false, false],
     [false, false, false, false, false, false],

@@ -11,6 +11,10 @@ export default function SkillTable({getBackgroundColor}: Props){
     const [isClicked, setIsClicked] = useState<boolean>(false); // 木蓮ギャップ欄のclick処理用State
     const characterData = useContext<DataProviderType | null>(DataContext);
 
+    function handleMouseClick(){
+        if(characterData) characterData.setMokuren((prev) => !prev);
+    }
+
     return (
         <tr>
             <td
@@ -29,8 +33,11 @@ export default function SkillTable({getBackgroundColor}: Props){
                     setIsHovered(false);
                     setIsClicked(false);
                 }}
-                onClick={() => {
-                    if(characterData) characterData.setMokuren((prev) => !prev);
+                onClick={handleMouseClick}
+                onContextMenu={(event: React.MouseEvent<HTMLTableCellElement, MouseEvent>) => {
+                    event.preventDefault();
+                    handleMouseClick();
+                    return false;
                 }}
             />
         </tr>
