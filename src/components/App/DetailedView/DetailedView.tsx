@@ -29,7 +29,7 @@ export default function DetailedView({isDetailedView, targetSkill}: Props) {
                 ref={detailedViewRef}
                 style={{
                     height: "fit-content",
-                    borderBottom: ((convertSkillCoordinate(characterData?.skills || []).length > 0) && (detailedViewRef.current && detailedViewRef.current.offsetHeight <= 377)) ? "solid 1px rgb(152, 152, 152)" : "",
+                    borderBottom: ((convertSkillCoordinate(characterData?.skills || []).length > 0) && (detailedViewRef.current && detailedViewRef.current.offsetHeight <= maxHeight)) ? "solid 1px rgb(152, 152, 152)" : "",
                     minWidth: "7rem"
                 }}
             >
