@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { DataContext, DataProviderType } from '../../../providers/App/DataProvider';
 import { convertSkillCoordinate } from '../../../data/getCharacterData';
 import { SkillCoordinate, skillNameList } from '../../../data/getAchievementValue';
@@ -11,6 +11,8 @@ type Props = {
 
 export default function DetailedView({isDetailedView, targetSkill}: Props) {
     const characterData = useContext<DataProviderType | null>(DataContext);
+    const detailedViewRef = useRef<HTMLDivElement>(null);
+    const maxHeight: number = 377;
 
     return (
         <div
@@ -18,15 +20,16 @@ export default function DetailedView({isDetailedView, targetSkill}: Props) {
                 borderLeft: "solid 1px rgb(152, 152, 152)",
                 textAlign: "left",
                 minWidth: "7rem",
-                maxHeight: "377px",
+                maxHeight: `${maxHeight}px`,
                 overflowY: "auto"
             }}
             hidden={!isDetailedView}
         >
             <div
+                ref={detailedViewRef}
                 style={{
                     height: "fit-content",
-                    borderBottom: (convertSkillCoordinate(characterData?.skills || []).length > 0) ? "solid 1px rgb(152, 152, 152)" : "",
+                    borderBottom: ((convertSkillCoordinate(characterData?.skills || []).length > 0) && (detailedViewRef.current && detailedViewRef.current.offsetHeight <= 377)) ? "solid 1px rgb(152, 152, 152)" : "",
                     minWidth: "7rem"
                 }}
             >
