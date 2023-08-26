@@ -3,7 +3,7 @@ import { Paper, IconButton } from '@mui/material';
 import Help from './../../svg/Help'
 import Close from './../../svg/Close'
 
-export default function Header({setIsVisible}: {setIsVisible: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function Header({setIsVisible, openModal}: {setIsVisible: React.Dispatch<React.SetStateAction<boolean>>, openModal: () => void}) {
     return (
             <Paper
                 elevation={4}
@@ -34,6 +34,7 @@ export default function Header({setIsVisible}: {setIsVisible: React.Dispatch<Rea
                             margin: "0",
                             padding: "3px"
                         }}
+                        onClick={openModal}
                     >
                         <Help />
                     </IconButton>

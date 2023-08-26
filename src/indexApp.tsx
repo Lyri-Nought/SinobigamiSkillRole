@@ -15,6 +15,13 @@ function addPortalRoot(): HTMLDivElement{ // ポータルを追加するため�
     return portalRoot;
 }
 
+function addModalPortalRoot(): void{ // ポータル(モーダルメニュー追加用)を追加するためのルート要素を作成する関数
+    // ポータルを追加するためのルート要素を作成
+    const portalRoot = document.createElement('div');
+    portalRoot.id = 'modal-root-ShinobigamiSkillRole';
+    document.body.appendChild(portalRoot);
+}
+
 async function renderApp(portal: HTMLDivElement): Promise<void>{ // ポータルにAppコンポーネントを追加する関数
     ReactDOM.render(
         <React.StrictMode>
@@ -43,6 +50,7 @@ if(location.hostname + location.pathname === "character-sheets.appspot.com/shino
 }else{
     // ココフォリア上の処理
     window.onload = async function(){
+        addModalPortalRoot();
         const portal: HTMLDivElement = addPortalRoot();
         renderApp(portal);
     };

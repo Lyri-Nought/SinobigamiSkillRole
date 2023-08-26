@@ -9,6 +9,8 @@ import DetailedView from "./DetailedView/DetailedView"
 import { getKeyConfigInStorage } from "../../data/fetchKeyConfig"
 import { DataContext, DataProviderType } from '../../providers/App/DataProvider';
 import { SkillCoordinate } from '../../data/getAchievementValue';
+import { useModal } from 'react-hooks-use-modal';
+import HelpModal from "./HelpModal";
 
 // TODO Helpボタン
 
@@ -43,15 +45,22 @@ const theme = createTheme({
 
 export default function App(){
     const characterData = useContext<DataProviderType | null>(DataContext);
+
     const [isVisible, setIsVisible] = useState<boolean>(false); // 表示中かどうか
     const [selecting, setSelecting] = useState<number>(0); // 選択中のモード 0が特技設定, 1が妖理設定, 2が達人設定
     const [isDetailedView , setIsDetailedView] = useState<boolean>(false); // 詳細表示モードがonになっているかどうか
     const [targetSkill , setTargetSkill] = useState<SkillCoordinate | null>(null); // 左クリックでロール用に選択している特技
+
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
     const [width, setWidth] = useState<number>(580.250);
     const [height, setHeight] = useState<number>(425);
     const skillTableRef = useRef<HTMLTableElement>(null);
+
+    // モーダルメニュー
+    const [Modal, openModal, closeModal, isOpenModal] = useModal('modal-root-ShinobigamiSkillRole', {
+        preventScroll: true
+    });
 
     // キーボード入力を受け取った際の処理
     function handleKeyDown(event: KeyboardEvent){
@@ -120,7 +129,7 @@ export default function App(){
                             }}
                             elevation={10}
                         >
-                            <Header setIsVisible={setIsVisible}/>
+                            <Header setIsVisible={setIsVisible} openModal={openModal}/>
                             <div
                                 style={{
                                     display: "flex",
@@ -148,6 +157,9 @@ export default function App(){
                             </div>
                         </Paper>
                     </Draggable>
+                    <Modal>
+                        <HelpModal/>
+                    </Modal>
                 </ThemeProvider>
             )}
         </div>
