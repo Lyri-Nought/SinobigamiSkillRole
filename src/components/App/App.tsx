@@ -9,10 +9,6 @@ import DetailedView from "./DetailedView/DetailedView"
 import { getKeyConfigInStorage } from "../../data/fetchKeyConfig"
 import { DataContext, DataProviderType } from '../../providers/App/DataProvider';
 import { SkillCoordinate } from '../../data/getAchievementValue';
-import { useModal } from 'react-hooks-use-modal';
-import HelpModal from "./HelpModal";
-
-// TODO Helpボタン
 
 const theme = createTheme({
     palette: {
@@ -40,6 +36,14 @@ const theme = createTheme({
                 },
             },
         },
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    backgroundColor: 'black', // 背景色を黒に設定
+                    color: 'white', // テキスト色を白に設定（任意の色）
+                },
+            },
+        },
     },
 });
 
@@ -56,11 +60,6 @@ export default function App(){
     const [width, setWidth] = useState<number>(580.250);
     const [height, setHeight] = useState<number>(425);
     const skillTableRef = useRef<HTMLTableElement>(null);
-
-    // モーダルメニュー
-    const [Modal, openModal, closeModal, isOpenModal] = useModal('modal-root-ShinobigamiSkillRole', {
-        preventScroll: true
-    });
 
     // キーボード入力を受け取った際の処理
     function handleKeyDown(event: KeyboardEvent){
@@ -129,7 +128,7 @@ export default function App(){
                             }}
                             elevation={10}
                         >
-                            <Header setIsVisible={setIsVisible} openModal={openModal}/>
+                            <Header setIsVisible={setIsVisible}/>
                             <div
                                 style={{
                                     display: "flex",
@@ -157,9 +156,6 @@ export default function App(){
                             </div>
                         </Paper>
                     </Draggable>
-                    <Modal>
-                        <HelpModal/>
-                    </Modal>
                 </ThemeProvider>
             )}
         </div>

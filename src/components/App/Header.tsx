@@ -1,9 +1,11 @@
 import React from 'react';
-import { Paper, IconButton } from '@mui/material';
+import { Paper, IconButton, Tooltip } from '@mui/material';
 import Help from './../../svg/Help'
 import Close from './../../svg/Close'
 
-export default function Header({setIsVisible, openModal}: {setIsVisible: React.Dispatch<React.SetStateAction<boolean>>, openModal: () => void}) {
+const helpTooltipText: string = "左クリックで判定\n右クリックで特技設定"
+
+export default function Header({setIsVisible}: {setIsVisible: React.Dispatch<React.SetStateAction<boolean>>}) {
     return (
             <Paper
                 elevation={4}
@@ -26,18 +28,19 @@ export default function Header({setIsVisible, openModal}: {setIsVisible: React.D
                     特技判定
                 </div>
                 <div style={{margin: "0 0 0 auto"}}>
+                    <Tooltip title={helpTooltipText}>
                     <IconButton
                         className="draggable-disable"
                         edge="end"
                         color="primary"
                         style={{
-                            margin: "0",
+                            margin: "0 -3px 0 4px",
                             padding: "3px"
                         }}
-                        onClick={openModal}
                     >
                         <Help />
                     </IconButton>
+                    </Tooltip>
                     <IconButton
                         className="draggable-disable"
                         edge="end"
