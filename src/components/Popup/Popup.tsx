@@ -1,4 +1,4 @@
-import React, { Key } from 'react';
+import React from 'react';
 import { useState, useEffect, useRef } from "react";
 import {
     KeyKind,
@@ -6,9 +6,7 @@ import {
     defaultCopyKey,
     defaultPasteKey,
     getKeyConfigInStorage,
-    setKeyConfigInStorage,
-    getAllData,
-    clearData
+    setKeyConfigInStorage
 } from "./../../data/fetchKeyConfig"
 
 export default function Popup() {
@@ -109,8 +107,6 @@ export default function Popup() {
                 </tr>
             </table>
             <button style={{textAlign: "right"}} onClick={initializeKeyConfig}>初期設定に戻す</button>
-            <button onClick={getAllData}>getAllData</button>
-            <button onClick={clearData}>clearData</button>
         </div>
     );
 }
