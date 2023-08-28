@@ -61,7 +61,7 @@
 ![image](https://github.com/CA01971172/SinobigamiSkillRole/assets/107534447/a33eb811-72c6-410f-a21d-2d6d6a06100b)  
 ### キーコンフィグを変更する
 拡張機能のポップアップからキーコンフィグを変更することができます。  
-まず、Chrome画面右上から「拡張機能![image](https://github.com/CA01971172/SinobigamiSkillRole/assets/107534447/bbfa4081-e4d4-4f83-9d08-8aeb5b04552a)」ボタンをクリックします。  
+まず、Chrome画面右上(アドレスバーの右隣)から「拡張機能![image](https://github.com/CA01971172/SinobigamiSkillRole/assets/107534447/bbfa4081-e4d4-4f83-9d08-8aeb5b04552a)」ボタンをクリックします。  
 次に、「シノビガミ特技判定ツール」をクリックします。  
 ![image](https://github.com/CA01971172/SinobigamiSkillRole/assets/107534447/9f02b003-dba7-4e97-b3a9-7dedb23263c2)  
 変更したい操作(「特技判定ツールを開く/閉じる」など)の右側の「変更する」ボタンを押します。「変更する」ボタンを押したら、設定したいキーを押して設定完了です。  
