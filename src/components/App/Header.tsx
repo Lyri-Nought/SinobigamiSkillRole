@@ -3,7 +3,7 @@ import { Paper, IconButton, Tooltip } from '@mui/material';
 import Help from './../../svg/Help'
 import Close from './../../svg/Close'
 
-const helpTooltipText: string = "左クリックで判定\n右クリックで特技設定"
+const helpTooltipText: string = "使い方ガイドを開く"
 
 export default function Header({setIsVisible}: {setIsVisible: React.Dispatch<React.SetStateAction<boolean>>}) {
     return (
@@ -37,6 +37,8 @@ export default function Header({setIsVisible}: {setIsVisible: React.Dispatch<Rea
                                 margin: "0 -3px 0 4px",
                                 padding: "3px"
                             }}
+                            target="_blank"
+                            href="https://lyri-nought.github.io/SinobigamiSkillRole/"
                         >
                             <Help />
                         </IconButton>
