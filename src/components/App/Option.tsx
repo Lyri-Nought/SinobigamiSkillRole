@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FormControlLabel, Button, IconButton, Checkbox } from '@mui/material';
+import { FormControlLabel, Button, IconButton, Checkbox, Tooltip } from '@mui/material';
 import { DataContext, DataProviderType } from '../../providers/App/DataProvider';
 import Triangle from './../../svg/Triangle'
 
@@ -84,19 +84,21 @@ export default function Option({isDetailedView, setIsDetailedView, selecting, se
                 </Button>
             </div>
             <div>
-                <IconButton
-                    className="draggable-disable"
-                    edge="end"
-                    color="primary"
-                    style={{
-                        margin: "0 -3px 0 4px",
-                        padding: "3px",
-                        transform: (isDetailedView) ? "rotate(90deg)" : "rotate(-90deg)"
-                    }}
-                    onClick={() => setIsDetailedView((prev) => !prev)}
-                >
-                    <Triangle/>
-                </IconButton>
+                <Tooltip title="詳細表示">
+                    <IconButton
+                        className="draggable-disable"
+                        edge="end"
+                        color="primary"
+                        style={{
+                            margin: "0 -3px 0 4px",
+                            padding: "3px",
+                            transform: (isDetailedView) ? "rotate(90deg)" : "rotate(-90deg)"
+                        }}
+                        onClick={() => setIsDetailedView((prev) => !prev)}
+                    >
+                        <Triangle/>
+                    </IconButton>
+                </Tooltip>
             </div>
         </div>
     );

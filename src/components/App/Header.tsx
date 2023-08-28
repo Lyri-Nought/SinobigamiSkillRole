@@ -29,17 +29,17 @@ export default function Header({setIsVisible}: {setIsVisible: React.Dispatch<Rea
                 </div>
                 <div style={{margin: "0 0 0 auto"}}>
                     <Tooltip title={helpTooltipText}>
-                    <IconButton
-                        className="draggable-disable"
-                        edge="end"
-                        color="primary"
-                        style={{
-                            margin: "0 -3px 0 4px",
-                            padding: "3px"
-                        }}
-                    >
-                        <Help />
-                    </IconButton>
+                        <IconButton
+                            className="draggable-disable"
+                            edge="end"
+                            color="primary"
+                            style={{
+                                margin: "0 -3px 0 4px",
+                                padding: "3px"
+                            }}
+                        >
+                            <Help />
+                        </IconButton>
                     </Tooltip>
                     <IconButton
                         className="draggable-disable"
