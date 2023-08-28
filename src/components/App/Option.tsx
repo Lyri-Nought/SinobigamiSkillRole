@@ -43,6 +43,10 @@ export default function Option({isDetailedView, setIsDetailedView, selecting, se
                             onClick={() => {
                                 if(characterData) characterData.setMakaiKogaku((prev) => !prev);
                             }}
+                            onContextMenu={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                                event.preventDefault();
+                                if(characterData) characterData.setMakaiKogaku((prev) => !prev);
+                            }}
                         />
                     }
                     label="魔界工学"
@@ -54,6 +58,10 @@ export default function Option({isDetailedView, setIsDetailedView, selecting, se
                             color="info"
                             checked={characterData?.mokuren}
                             onClick={() => {
+                                if(characterData) characterData.setMokuren((prev) => !prev);
+                            }}
+                            onContextMenu={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                                event.preventDefault();
                                 if(characterData) characterData.setMokuren((prev) => !prev);
                             }}
                         />
@@ -68,6 +76,10 @@ export default function Option({isDetailedView, setIsDetailedView, selecting, se
                         padding: "3px"
                     }}
                     onClick={() => toggleSelecting(1)}
+                    onContextMenu={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                        event.preventDefault();
+                        toggleSelecting(1);
+                    }}
                 >
                     妖理
                 </Button>
@@ -79,6 +91,10 @@ export default function Option({isDetailedView, setIsDetailedView, selecting, se
                         padding: "3px"
                     }}
                     onClick={() => toggleSelecting(2)}
+                    onContextMenu={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                        event.preventDefault();
+                        toggleSelecting(2);
+                    }}
                 >
                     達人
                 </Button>
