@@ -6,7 +6,8 @@ import {
     defaultCopyKey,
     defaultPasteKey,
     getKeyConfigInStorage,
-    setKeyConfigInStorage
+    setKeyConfigInStorage,
+    clearData
 } from "./../../data/fetchKeyConfig"
 
 export default function Popup() {
@@ -67,11 +68,9 @@ export default function Popup() {
     function initializeKeyConfig(): void{
         setAccept("");
         setOpenKey("a");
-        setKeyConfigInStorage("openKey", "a");
         setCopyKey("c");
-        setKeyConfigInStorage("copyKey", "c");
         setPasteKey("v");
-        setKeyConfigInStorage("pasteKey", "v");
+        clearData();
     }
 
     return (
