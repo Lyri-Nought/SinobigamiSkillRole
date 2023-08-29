@@ -52,7 +52,7 @@
 ![image](https://github.com/Lyri-Nought/SinobigamiSkillRole/assets/107534447/a0d01efe-7e0b-4bf2-9647-e362a886aa22)
 ### キャラクターシートから習得特技情報を取得する
 #### キャラクターシートから習得特技情報をコピーする
-[シノビガミ キャラクター登録サイト](http://character-sheets.appspot.com/shinobigami/)から習得特技情報をコピーすることができます。  
+[シノビガミ キャラクター登録サイト](https://character-sheets.appspot.com/shinobigami/)から習得特技情報をコピーすることができます。  
 まずは、キャラクター登録サイトからキャラクターシートを開きます。  
 そして、「特技設定をコピーする」キー(デフォルトではAlt+C)を押すと、クリップボードにキャラクターデータがコピーされます。  
 ![image](https://github.com/Lyri-Nought/SinobigamiSkillRole/assets/107534447/94cbf258-e9cc-4868-b49e-a3b52e8ce778)  
