@@ -31,6 +31,8 @@ function copyWithKey(event: KeyboardEvent){
     getKeyConfigInStorage("copyKey").then((response: string) => {
         const copyKey: string = response;
         if(event.altKey && event.key === copyKey){
+            const focusElement: HTMLInputElement | null = document.querySelector("#base\\.player");
+            if(focusElement) focusElement.focus();
             copyCharacterDataToClipboard();
         }
     })

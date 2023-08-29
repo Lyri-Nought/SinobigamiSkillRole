@@ -17,7 +17,7 @@
         "default_popup": "popup.html"
     },
     "content_scripts": [{
-        "matches": ["https://ccfolia.com/rooms/*", "http://character-sheets.appspot.com/shinobigami/*"],
+        "matches": ["https://ccfolia.com/rooms/*", "http://character-sheets.appspot.com/shinobigami/*", "https://character-sheets.appspot.com/shinobigami/*"],
         "js": ["app.js"],
         "css": ["app.css"],
         "run_at": "document_idle"
